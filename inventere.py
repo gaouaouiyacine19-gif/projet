@@ -2,22 +2,21 @@ import pygame
 
 class Inventaire:
     def __init__(self):
-        # --- Objets Consommables (Ressources / Colonne DROITE) ---
+        # --- Objets Consommables (Ressources) ---
         self.pas = 70       
         self.pieces_or = 0  
         self.gemmes = 2     
         self.cles = 0       
         self.des = 0        
         
-        # --- Objets Permanents (Équipement / Colonne GAUCHE) ---
-        self.pelle = False          # Shovel (Pelle)
-        self.marteau = False        # Hammer (Marteau)
-        self.kit_crochetage = False # Lockpick Kit (Kit de crochetage)
+        # --- Objets Permanents (Équipement) ---
+        self.pelle = False          
+        self.marteau = False        
+        self.kit_crochetage = False 
         self.detecteur_metal = False 
         self.patte_lapin = False    
 
     def perdre_pas(self, quantite=1):
-        """Décrémente le nombre de pas."""
         self.pas -= quantite 
 
     def afficher(self, screen):
@@ -27,65 +26,40 @@ class Inventaire:
         line_height = 25
         start_y = 50
         
-        # --- 1. CONFIGURATION DE LA COLONNE DE DROITE (Ressources) ---
-        # Cette colonne affichera les valeurs (Pas, Clés, Gemmes, etc.)
+        X_PERMANENTS = 500
         X_RESSOURCES = 750
         
+        # 1. AFFICHAGE DES RESSOURCES (Colonne DROITE)
         ressources = [
-            (self.pas, "PAS"),
-            (self.cles, "CLÉS"),
-            (self.des, "DÉS"),
-            (self.gemmes, "GEMMES"),
-            (self.pieces_or, "PIÈCES D'OR")
+            (self.pas, "PAS"), (self.cles, "CLÉS"), (self.des, "DÉS"),
+            (self.gemmes, "GEMMES"), (self.pieces_or, "PIÈCES D'OR")
         ]
-        
         y_pos = start_y
-        
-        # Affiche le titre de la section Ressources
-        text_titre = font.render("RESSOURCES", True, (200, 200, 200))
-        screen.blit(text_titre, (X_RESSOURCES, y_pos))
+        dessiner_ligne = lambda txt, x, y, color: screen.blit(font.render(txt, True, color), (x, y))
+
+        dessiner_ligne("RESSOURCES", X_RESSOURCES, y_pos, (200, 200, 200))
         y_pos += line_height * 2
 
         for valeur, nom in ressources:
-            # Affiche la valeur (le chiffre)
-            text_valeur = font.render(f"{valeur}", True, (255, 255, 255))
-            screen.blit(text_valeur, (X_RESSOURCES, y_pos)) 
-            
-            # Affiche le nom de la ressource à côté pour référence rapide
-            text_nom = font.render(nom, True, (150, 150, 150))
-            screen.blit(text_nom, (X_RESSOURCES + 50, y_pos))
-            
+            dessiner_ligne(f"{valeur}", X_RESSOURCES, y_pos, (255, 255, 255))
+            dessiner_ligne(nom, X_RESSOURCES + 50, y_pos, (150, 150, 150))
             y_pos += line_height
 
-        # --- 2. CONFIGURATION DE LA COLONNE DE GAUCHE (Objets Permanents) ---
-        # Cette colonne affichera le statut des objets (possédé ou non)
-        X_PERMANENTS = 500
-        
+        # 2. AFFICHAGE DES OBJETS PERMANENTS (Colonne GAUCHE)
         permanents = [
-            ("Pelle", self.pelle),
-            ("Marteau", self.marteau),
-            ("Kit de crochetage", self.kit_crochetage),
-            ("Détecteur de métaux", self.detecteur_metal),
+            ("Pelle", self.pelle), ("Marteau", self.marteau),
+            ("Kit de crochetage", self.kit_crochetage), ("Détecteur de métaux", self.detecteur_metal),
             ("Patte de lapin", self.patte_lapin),
         ]
 
         y_pos = start_y
-        
-        # Affiche le titre de la section Objets
-        text_titre = font.render("OBJETS", True, (200, 200, 200))
-        screen.blit(text_titre, (X_PERMANENTS, y_pos))
+        dessiner_ligne("OBJETS", X_PERMANENTS, y_pos, (200, 200, 200))
         y_pos += line_height * 2
 
         for nom, possede in permanents:
-            couleur = (0, 255, 0) if possede else (150, 150, 150) # Vert si possédé, gris si non
+            couleur = (0, 255, 0) if possede else (150, 150, 150)
             statut = "[X]" if possede else "[ ]"
             
-            # Affichage du statut
-            text_statut = font.render(statut, True, couleur)
-            screen.blit(text_statut, (X_PERMANENTS, y_pos))
-            
-            # Affichage du nom
-            text_nom = font.render(nom, True, couleur)
-            screen.blit(text_nom, (X_PERMANENTS + 30, y_pos))
-            
+            dessiner_ligne(statut, X_PERMANENTS, y_pos, couleur)
+            dessiner_ligne(nom, X_PERMANENTS + 30, y_pos, couleur)
             y_pos += line_height

@@ -1,4 +1,6 @@
 import pygame
+from piece import Piece 
+from catalogue import CataloguePiece 
 
 class Manoir:
     def __init__(self):
@@ -7,31 +9,66 @@ class Manoir:
         self.cell_size = 80
         self.margin = 20
         
-        self.image_antichambre = None # base.png (en haut)
-        self.image_hall_entree = None # hall.jpg (en bas)
+        self.catalogue = CataloguePiece() 
+        self.images = {}
 
-        try:
-            # Chargement de l'Antichambre (base.png)
-            self.image_antichambre = pygame.image.load('base.png').convert_alpha()
-            self.image_antichambre = pygame.transform.scale(self.image_antichambre, 
-                                                            (self.cell_size - 2, self.cell_size - 2))
+        self.map = self._initialiser_map()
+        self._charger_toutes_images()
+        
+    def _initialiser_map(self):
+        """Définit la grille 9x5 des pièces, y compris le départ et l'arrivée."""
+        
+        # Pièce "non découverte" : image_path vide pour utiliser le fond de l'écran
+        PIECE_NON_DECOUVERTE = Piece(nom="Inconnu", image_path='') 
+        manoir_map = [[PIECE_NON_DECOUVERTE for _ in range(self.cols)] for _ in range(self.rows)]
+        
+        COL_CIBLE = 2
+        
+        # 1. Antichambre (ARRIVÉE, y=0, x=2)
+        manoir_map[0][COL_CIBLE] = Piece(
+            nom="Antichambre",
+            image_path='base.png', 
+            portes={'S': True}, 
+            type_piece="antichambre"
+        )
+        
+        # 2. Hall d'Entrée (DÉPART, y=8, x=2)
+        hall_entree = Piece(
+            nom="Hall d'Entrée",
+            image_path='hall.png', 
+            portes={'N': True, 'E': True, 'O': True}, # Portes N, E, O ouvertes pour le départ
+            type_piece="hall_entree"
+        )
+        manoir_map[self.rows - 1][COL_CIBLE] = hall_entree
+        hall_entree.visitee = True # Marquer la pièce de départ comme visitée
+        
+        return manoir_map
+        
+    def _charger_toutes_images(self):
+        """Charge toutes les images nécessaires (carte + catalogue)."""
+        
+        # Ignore les chemins vides ('') et récupère les chemins uniques
+        chemins_map = set(p.image_path for ligne in self.map for p in ligne if p.image_path)
+        chemins_catalogue = set(p.image_path for p in self.catalogue.pieces_disponibles if p.image_path)
+        chemins_totaux = chemins_map.union(chemins_catalogue)
+        
+        for path in chemins_totaux:
+            if path not in self.images:
+                try:
+                    img = pygame.image.load(path).convert_alpha()
+                    self.images[path] = pygame.transform.scale(img, (self.cell_size - 2, self.cell_size - 2))
+                except pygame.error as e:
+                    print(f"Erreur: Image '{path}' introuvable. Assurez-vous que le fichier existe: {e}")
+                    self.images[path] = None
 
-            # Chargement du Hall d'entrée (hall.jpg)
-            # Vérifiez l'extension : hall.jpg ou hall.png ?
-            self.image_hall_entree = pygame.image.load('hall.png').convert_alpha() 
-            self.image_hall_entree = pygame.transform.scale(self.image_hall_entree, 
-                                                            (self.cell_size - 2, self.cell_size - 2))
-        except pygame.error as e:
-            print(f"Erreur de chargement d'image: {e}")
-            
     def _get_coords_top_left(self, x, y):
-        """Calcule les coordonnées en pixels du coin supérieur gauche d'une case."""
         pixel_x = x * self.cell_size + self.margin
         pixel_y = y * self.cell_size + self.margin
         return (pixel_x, pixel_y)
 
     def afficher(self, screen):
-        # 1. Dessin des contours de la grille
+        # ... (Dessin des contours de la grille) ...
+        
         for y in range(self.rows):
             for x in range(self.cols):
                 rect = pygame.Rect(
@@ -40,17 +77,14 @@ class Manoir:
                     self.cell_size - 2,
                     self.cell_size - 2
                 )
-                pygame.draw.rect(screen, (80, 80, 100), rect, 1)  
-        
-        # 2. Dessin des images spécifiques (3ème carreau = index 2)
-        COL_CIBLE = 2
-        
-        # Antichambre (en haut, y=0, col=2)
-        if self.image_antichambre:
-            antichambre_x, antichambre_y = self._get_coords_top_left(x=COL_CIBLE, y=0)
-            screen.blit(self.image_antichambre, (antichambre_x, antichambre_y))
-            
-        # Hall d'entrée (en bas, y=rows-1, col=2)
-        if self.image_hall_entree:
-            hall_x, hall_y = self._get_coords_top_left(x=COL_CIBLE, y=self.rows - 1)
-            screen.blit(self.image_hall_entree, (hall_x, hall_y))
+                
+                piece_courante = self.map[y][x]
+                
+                # Dessin de l'image de la pièce SEULEMENT si un chemin existe et l'image est chargée
+                if piece_courante.image_path and piece_courante.image_path in self.images and self.images[piece_courante.image_path]:
+                    image_a_afficher = self.images[piece_courante.image_path]
+                    coords = self._get_coords_top_left(x, y)
+                    screen.blit(image_a_afficher, coords)
+                    
+                # Dessin du contour
+                pygame.draw.rect(screen, (80, 80, 100), rect, 1)
