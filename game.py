@@ -13,7 +13,7 @@ class Game:
 
         # Position de départ : 3ème colonne (index 2), 8ème ligne (index 7).
         # Nous mettons y=7 pour que le joueur NE CACHE PAS le Hall d'entrée (y=8).
-        self.joueur = Joueur(x=2, y=7, taille=self.manoir.cell_size)
+        self.joueur = Joueur(x=2, y=8, taille=self.manoir.cell_size)
         self.inventaire = Inventaire() 
 
     def run(self):

@@ -6,7 +6,7 @@ pygame.init()
 
 # Dimensions de la fenêtre
 SCREEN_WIDTH = 900
-SCREEN_HEIGHT = 500
+SCREEN_HEIGHT = 800
 
 # Création de la fenêtre
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
