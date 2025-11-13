@@ -27,7 +27,7 @@ class Manoir:
         # 1. Antichambre (ARRIVÉE, y=0, x=2)
         manoir_map[0][COL_CIBLE] = Piece(
             nom="Antichambre",
-            image_path='base.png', 
+            image_path='assets/images/base.png', 
             portes={'S': True}, 
             type_piece="antichambre"
         )
@@ -35,7 +35,7 @@ class Manoir:
         # 2. Hall d'Entrée (DÉPART, y=8, x=2)
         hall_entree = Piece(
             nom="Hall d'Entrée",
-            image_path='hall.png', 
+            image_path='assets/images/hall.png', 
             portes={'N': True, 'E': True, 'O': True}, # Portes N, E, O ouvertes pour le départ
             type_piece="hall_entree"
         )

@@ -36,12 +36,13 @@ class Game:
         self.img_win = None
         self.img_gameover = None
         try:
-            self.img_win = pygame.image.load('win.png').convert_alpha()
+            self.img_win = pygame.image.load('assets/images/win.png').convert_alpha()
             self.img_win = pygame.transform.scale(self.img_win, (self.screen.get_width(), self.screen.get_height()))
-            self.img_gameover = pygame.image.load('gameover.png').convert_alpha()
+            self.img_gameover = pygame.image.load('assets/images/gameover.png').convert_alpha()
             self.img_gameover = pygame.transform.scale(self.img_gameover, (self.screen.get_width(), self.screen.get_height()))
         except:
             print("Avertissement: Images de fin de jeu (win.png/gameover.png) non trouvées.")
+
 
 
     def _tirer_pieces(self):

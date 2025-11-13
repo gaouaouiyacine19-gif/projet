@@ -18,7 +18,7 @@ class CataloguePiece:
         # 1. MAGASIN (Entrée S, Cul-de-sac)
         catalogue.append(Piece(
             nom="Magasin",
-            image_path='magasin.png',
+            image_path='assets/images/magasin.png',
             rareté=0,
             cout_gemmes=0,
             portes={'S': True}, 
@@ -29,7 +29,7 @@ class CataloguePiece:
         # 2. GARAGE (Entrée S, Cul-de-sac)
         catalogue.append(Piece(
             nom="Garage",
-            image_path='garage.png',
+            image_path='assets/images/garage.png',
             rareté=0,
             cout_gemmes=1,
             portes={'S': True},
@@ -40,7 +40,7 @@ class CataloguePiece:
         # 3. SALLE MUSIQUE (Entrée S, Sorties O, S)
         catalogue.append(Piece(
             nom="Salle Musique",
-            image_path='musique.png',
+            image_path='assets/images/garage.png',
             rareté=0,
             cout_gemmes=2,
             portes={'S': True, 'O': True}, 
@@ -50,8 +50,8 @@ class CataloguePiece:
         
         # 4. VESTIAIRE (Entrée S, Sortie N)
         catalogue.append(Piece(
-            nom="Vestiaire",
-            image_path='vestiaire.png',
+            nom="vestiaire",
+            image_path='assets/images/vestiaire.png',
             rareté=0,
             cout_gemmes=0,
             portes={'S': True, 'N': True},
