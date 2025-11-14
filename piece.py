@@ -1,5 +1,5 @@
 # piece.py
-
+import pygame 
 class Piece:
     def __init__(self, nom, image_path, couleur="Bleue", rareté=0, cout_gemmes=0,
                  portes={'N': False, 'S': False, 'E': False, 'O': False}, 
@@ -16,3 +16,19 @@ class Piece:
         
         self.visitee = False
         self.image = None
+
+    def rotate(self):
+    #Tourne la pièce de 90° à droite + tourne l'image
+    # Rotation logique des portes
+       self.portes = {
+         'N': self.portes.get('O', False),
+         'E': self.portes.get('N', False),
+         'S': self.portes.get('E', False),
+         'O': self.portes.get('S', False)
+        }
+
+    # Rotation de l'image pygame
+       if self.image is not None:
+            self.image = pygame.transform.rotate(self.image, -90)  # -90 = rotation vers la droite
+
+

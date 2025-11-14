@@ -57,6 +57,16 @@ class Manoir:
                 try:
                     img = pygame.image.load(path).convert_alpha()
                     self.images[path] = pygame.transform.scale(img, (self.cell_size - 2, self.cell_size - 2))
+                    # Donner l'image aux pièces qui utilisent ce chemin
+                    for ligne in self.map:
+                        for piece in ligne:
+                           if piece.image_path == path:
+                                piece.image = self.images[path]
+                    for piece in self.catalogue.pieces_disponibles:
+                           if piece.image_path == path:
+                                piece.image = self.images[path]
+
+
                 except pygame.error as e:
                     print(f"Erreur: Image '{path}' introuvable. Assurez-vous que le fichier existe: {e}")
                     self.images[path] = None
@@ -82,7 +92,7 @@ class Manoir:
                 
                 # Dessin de l'image de la pièce SEULEMENT si un chemin existe et l'image est chargée
                 if piece_courante.image_path and piece_courante.image_path in self.images and self.images[piece_courante.image_path]:
-                    image_a_afficher = self.images[piece_courante.image_path]
+                    image_a_afficher = piece_courante.image
                     coords = self._get_coords_top_left(x, y)
                     screen.blit(image_a_afficher, coords)
                     

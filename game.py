@@ -30,7 +30,9 @@ class Game:
         self.cible_x = -1                     
         self.cible_y = -1                     
         self.pieces_proposees = []            
-        self.index_choix = 0                  
+        self.index_choix = 0  
+        self.direction_entree = None # par ou on rentrer 
+                
 
         # Chargement des images de fin de jeu
         self.img_win = None
@@ -60,7 +62,25 @@ class Game:
     def _valider_choix_piece(self):
         """Place la pièce choisie, déduit le coût, déplace le joueur et exécute les effets."""
         piece_choisie = self.pieces_proposees[self.index_choix]
-        
+
+        # 🔄 1) Déterminer la face d'entrée (N/S/E/O) selon la direction d'entrée
+        entree = None
+        if self.direction_entree == pygame.K_z:   # tu montes
+            entree = 'S'   # tu entres par le bas de la nouvelle pièce
+        elif self.direction_entree == pygame.K_s: # tu descends
+            entree = 'N'   # tu entres par le haut
+        elif self.direction_entree == pygame.K_q: # tu vas à gauche
+            entree = 'E'   # tu entres par la droite
+        elif self.direction_entree == pygame.K_d: # tu vas à droite
+            entree = 'O'   # tu entres par la gauche
+
+        # 🔄 2) Faire tourner la pièce pour que la case d'entrée ait une porte ouverte
+        if entree is not None:
+            for _ in range(4):  # max 4 rotations
+                if piece_choisie.portes.get(entree, False):
+                    break
+                piece_choisie.rotate()
+
         if self.inventaire.gemmes >= piece_choisie.cout_gemmes:
             self.inventaire.gemmes -= piece_choisie.cout_gemmes
             
@@ -74,14 +94,15 @@ class Game:
                 self.inventaire.cles += piece_choisie.objets.get('cles', 0)
                 self.inventaire.gemmes += piece_choisie.objets.get('gemmes', 0)
                 self.inventaire.pieces_or += piece_choisie.objets.get('pieces_or', 0)
-            
-            # Logique future : retirer la pièce de la pioche si elle est unique.
+                # Si tu utilises des 'pas' dans objets :
+                self.inventaire.pas += piece_choisie.objets.get('pas', 0)
             
             print(f"Pièce {piece_choisie.nom} placée. Nouveau total de clés: {self.inventaire.cles}")
 
-            # Retour au mode déplacement
+            # Nettoyage et retour au mode déplacement
             self.etat_jeu = STATE_DEPLACEMENT
             self.pieces_proposees = []
+            self.direction_entree = None
         else:
             print("Pas assez de gemmes pour cette pièce.")
 
@@ -144,8 +165,11 @@ class Game:
                                 self.pieces_proposees = self._tirer_pieces()
                                 self.etat_jeu = STATE_CHOIX_PIECE
                                 self.index_choix = 0
+                          #  On mémorise la direction d'entrée pour la rotation
+                                self.direction_entree = self.direction_visee
                             
                             self.direction_visee = None 
+
 
                     elif self.etat_jeu == STATE_CHOIX_PIECE:
                         # Gérer les touches du menu
