@@ -171,8 +171,98 @@ class CataloguePiece:
             type_piece="foyer"
         
         ))
+        # --- PIÈCES VERTES (9 pièces – rareté 1) ---
+          # 1- chambre cours 
+        catalogue.append(Piece(
+            nom="cour",
+            image_path='assets/images/vertcour.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={'S': True, 'E': True, 'O': True},
+            objets={'gemmes': 1},
+            type_piece="vert"
+        ))
+
+        # 2- chambre patio
+
+        catalogue.append(Piece(
+            nom="patio",
+            image_path='assets/images/vertpatio.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={ 'S': True ,'O': True},
+            objets={'cles': 1},
+            type_piece="vert"  
+        ))
+
+
+        # 3- chambre jardin
+
+        catalogue.append(Piece(
+            nom=" Jardin",
+            image_path='assets/images/vertjardin.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={ 'S': True, 'E': True, 'O': True},
+            objets={'pieces_or': 1 , 'gemmes': 1},
+            type_piece="vert"
+        ))
+          
+
+          # 4 chambre solarium
+        catalogue.append(Piece(
+            nom="Solarium.png",
+            image_path='assets/images/vertsolarium.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={'S': True},
+            objets={'gemmes': 2},
+            type_piece="vert"
+            ))
         
-       
+
+        # 5 chambre Tarrace 
+
+        catalogue.append(Piece(
+            nom="Terrace",
+            image_path='assets/images/vertTerrace.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={ 'S': True},
+            objets={'pieces_or': 2},
+            type_piece="vert"
+        ))
+
+        # 6 chambre  cloister
+
+        catalogue.append(Piece(
+            nom="Cloister",
+            image_path='assets/images/vertvCloister.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={'N': True, 'S': True, 'E': True, 'O': True},
+            objets={'cles': 1, 'gemmes': 1},
+            type_piece="vert"
+        ))
+
+
+         # 7 chambre veranda 
+        catalogue.append(Piece(
+            nom="Veranda",
+            image_path='assets/images/vertVeranda.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={'N': True, 'S': True},
+            objets={'pieces_or': 1, 'gemmes': 1},
+           type_piece="vert"
+        ))
+        
+        
+
+
+
+
+
 
         # PIÈCES ROUGES (plus rares : rareté 2) 
 
@@ -191,15 +281,15 @@ class CataloguePiece:
         # 2 Chambre salle de sporte(donne des clés mais coûte cher)
         catalogue.append(Piece(
             nom="salle de sport",
-            image_path='assets/images/salledesport.png',
+            image_path='assets/images/rougesalledesport.png',
             rareté=2,
             cout_gemmes=2,
             portes={'S': True, 'O': True,'E': True, 'N': True},
-            objets={'gemmes': -30},
+            objets={'gemmes': -6},
             type_piece="piege"
         ))
 
-         # 1 Chambre chapel (tu perd des piece )
+         # 3 Chambre chapel (tu perd des piece )
         catalogue.append(Piece(
             nom="chapel",
             image_path='assets/images/Chapel.png',
@@ -209,6 +299,78 @@ class CataloguePiece:
             objets={'cles': -1 ,'pieces_or': -1},
             type_piece="piege"
         ))
+
+
+
+         # 4 Salle du Weight
+        catalogue.append(Piece(
+            nom="Weight",
+            image_path='assets/images/rougeWeight.png',
+            rareté=2,
+            cout_gemmes=3,
+            portes={'N': True, 'S': True, 'E': True, 'O': True},
+            objets={'pieces_or':-1 , 'gemmes': 2,'cles': 1 },
+            type_piece="tresor"
+        ))
+
+         # 5 Salle du Gymnasium
+        catalogue.append(Piece(
+            nom="Gymnasium",
+            image_path='assets/images/rougeGymnasium.png',
+            rareté=2,
+            cout_gemmes=3,
+            portes={'S': True, 'E': True, 'O': True},
+            objets={ 'gemmes': -1,'cles': -1 },
+            type_piece="tresor"
+        ))
+
+         # 6 Salle du Furnace
+        catalogue.append(Piece(
+            nom="Furnace",
+            image_path='assets/images/rougeFurnace.png',
+            rareté=2,
+            cout_gemmes=3,
+            portes={ 'S': True},
+            objets={'pieces_or': -2,'cles': -1 },
+            type_piece="Furnace"
+        ))
+
+         # 7 Salle du Darkroom
+        catalogue.append(Piece(
+            nom="Darkroom",
+            image_path='assets/images/rougeDarkroom.png',
+            rareté=2,
+            cout_gemmes=3,
+            portes={'S': True, 'E': True, 'O': True},
+            objets={'pieces_or': 0, 'gemmes': -5,'cles': -1 },
+            type_piece="tresor"
+        ))
+         # 8 Salle Closed
+        catalogue.append(Piece(
+            nom="Closed",
+            image_path='assets/images/rougeClosed.png',
+            rareté=2,
+            cout_gemmes=3,
+            portes={'S': True, 'E': True, 'O': True},
+            objets={'pieces_or': -1, 'gemmes': 5,'cles': -2 },
+            type_piece="tresor"
+        ))
+
+
+         # 9 Salle des Archives
+        catalogue.append(Piece(
+            nom="Archives",
+            image_path='assets/images/rougeArchives.png',
+            rareté=2,
+            cout_gemmes=3,
+            portes={'N': True, 'S': True, 'E': True, 'O': True},
+            objets={'pieces_or': -2, 'gemmes': -5,'cles': +3 },
+            type_piece="tresor"
+        ))
+
+
+
+
 
         #  PIÈCES VIOLETTES (très rares : rareté 3)
         
@@ -284,6 +446,19 @@ class CataloguePiece:
             objets={'pas':5},
             type_piece="violet"
         ))
+           # PIÈCE MULTICOLORE SPÉCIALE 
+
+        catalogue.append(Piece(
+           nom="",
+           image_path='assets/images/aquaruim.png',
+           rareté=1,
+           cout_gemmes=4,
+           portes={'S': True, 'E': True, 'O': True},
+           objets={'cles': 2, 'gemmes': 3, 'pieces_or': 5, 'pas': 10},
+           type_piece="multicolor"
+))
+
+
 
         
         
