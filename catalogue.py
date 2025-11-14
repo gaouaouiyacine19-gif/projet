@@ -256,7 +256,122 @@ class CataloguePiece:
             objets={'pieces_or': 1, 'gemmes': 1},
            type_piece="vert"
         ))
+
         
+         # les chambre jaune 
+         
+        catalogue.append(Piece(
+            nom="Casino",
+            image_path='assets/images/jauneCasino.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={'O': True, 'S': True,},
+            objets={'pieces_or': 1, 'gemmes': 1},
+           type_piece="jaune"
+        ))
+          # 2 chambre corridor (tout les porte sont ouvert )
+        catalogue.append(Piece(
+            nom="Corridor", 
+            image_path='assets/images/jauneCorridor.png',
+            rareté=1,
+            cout_gemmes=0,
+            portes={'N': True, 'S': True, },
+            objets={},
+           type_piece="jaune"
+        ))
+         # jaune 
+        catalogue.append(Piece(
+            nom="Esst wing hall",
+            image_path='assets/images/jauneEast.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={'S': True, 'E': True, 'O': True},
+            objets={'pieces_or': 1, 'gemmes': 2},
+           type_piece="jaune"
+        ))
+ # jaune 
+        catalogue.append(Piece(
+            nom="Hallway Icon",
+            image_path='assets/images/jauneHallwayIcon.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={ 'S': True, 'E': True, 'O': True},
+            objets={'pieces_or': 1, 'gemmes': 1},
+           type_piece="jaune"
+        ))
+ # jaune 
+        catalogue.append(Piece(
+            nom="Locksmith",
+            image_path='assets/images/jauneLocksmith.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={ 'S': True},
+            objets={'pieces_or': 1, 'gemmes': 1},
+           type_piece="jaune"
+        ))
+ # jaune 
+        catalogue.append(Piece(
+            nom="Locksmith",
+            image_path='assets/images/jauneLocksmith.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={'N': True, 'S': True, 'E': True, 'O': True},
+            objets={'pieces_or': 1, 'gemmes': 1},
+           type_piece="jaune"
+        ))
+ # jaune 
+        catalogue.append(Piece(
+            nom="Passageway",
+            image_path='assets/images/jaunePassageway.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={ 'S': True},
+            objets={'pieces_or': 1, 'gemmes': 1},
+           type_piece="jaune"
+        ))
+ # jaune 
+        catalogue.append(Piece(
+            nom="Secret Passage",
+            image_path='assets/images/jauneSecretPassage.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={ 'S': True,'O':True},
+            objets={'pieces_or': 1, 'gemmes': 1},
+           type_piece="jaune"
+        ))
+       
+
+
+        catalogue.append(Piece(
+            nom=" The Armory",
+            image_path='assets/images/jauneTheArmory.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={'O': True, 'S': True},
+            objets={'pieces_or': 1, 'gemmes': 1},
+           type_piece="jaune"
+        ))
+
+
+        catalogue.append(Piece(
+            nom=" Tunnel",
+            image_path='assets/images/jauneTunnel.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={'N': True, 'S': True},
+            objets={'pieces_or': 1, 'gemmes': 1},
+           type_piece="jaune"
+        ))
+
+        catalogue.append(Piece(
+            nom=" West Wing Hall",
+            image_path='assets/images/jauneWestWingHall.png',
+            rareté=1,
+            cout_gemmes=1,
+            portes={ 'S': True, 'E': True, 'O': True},
+            objets={'pieces_or': 1, 'gemmes': 1},
+           type_piece="jaune"
+        ))
         
 
 
