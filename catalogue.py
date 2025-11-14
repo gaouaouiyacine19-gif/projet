@@ -77,7 +77,7 @@ class CataloguePiece:
             image_path='assets/images/bleumusique.png',
             rareté=0,
             cout_gemmes=2,
-            portes={'S': True}, 
+            portes={'S': True, 'O':True}, 
             objets={'cles': 3},
             type_piece="standard"
         ))
@@ -111,7 +111,7 @@ class CataloguePiece:
             image_path='assets/images/bleucuisine.png',
             rareté=0,
             cout_gemmes=0,
-            portes={'S': True, 'O': True, 'O': True},
+            portes={'S': True, 'O': True},
             objets={'pieces_or': 4},
             type_piece="standard"
         ))
@@ -171,7 +171,7 @@ class CataloguePiece:
             type_piece="foyer"
         
         ))
-        # --- PIÈCES VERTES (9 pièces – rareté 1) ---
+        # --- PIÈCES VERTES (– rareté 1) ---
           # 1- chambre cours 
         catalogue.append(Piece(
             nom="cour",
