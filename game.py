@@ -76,78 +76,106 @@ class game:
         return random.choices(pioche, weights=poids, k=3)
 
     def _valider_choix_piece(self):
-        """Place la pièce choisie, applique les coûts/bonus et déplace le joueur."""
-        if not self.pieces_proposees:
-            return
-
+        """Place la pièce choisie, déduit le coût, déplace le joueur et exécute les effets."""
         piece_choisie = self.pieces_proposees[self.index_choix]
+        
+        # --- 1. VÉRIFICATION DU COÛT DE VERROUILLAGE (Clés) ---
+        
+        lock_level = getattr(piece_choisie, "lock_level", 0) 
+        cles_consommees = 0
 
-        # 1) Rotation selon la direction d'entrée
-        entree = None
-        if self.direction_entree == pygame.K_z:
-            entree = 'S'
-        elif self.direction_entree == pygame.K_s:
-            entree = 'N'
-        elif self.direction_entree == pygame.K_q:
-            entree = 'E'
-        elif self.direction_entree == pygame.K_d:
-            entree = 'O'
+        if lock_level > 0:
+            # Vérification de la ressource nécessaire (simplifié à Clés pour le lock_level de la pièce)
+            if self.inventaire.cles < lock_level:
+                print(f"❌ Pas assez de clés : il faut {lock_level} clé(s).")
+                return # Bloque le placement
+            
+            # Consommation des clés
+            self.inventaire.cles -= lock_level
+            cles_consommees = lock_level
+            print(f"🔑 {lock_level} clé(s) consommée(s) pour le placement.")
 
-        if entree is not None:
-            for _ in range(4):
-                if piece_choisie.portes.get(entree, False):
-                    break
-                piece_choisie.rotate()
+        
+        # --- 2. VÉRIFICATION ET ALIGNEMENT DE LA ROTATION (Contrainte de la grille) ---
+        
+        # Déterminer la porte qui DOIT être ouverte sur la pièce choisie (la porte d'entrée)
+        porte_attendue = None
+        if self.direction_entree == pygame.K_z: 
+           porte_attendue = 'S' # Mouvement Nord (Z) -> Attendre porte Sud (S)
+        elif self.direction_entree == pygame.K_s: 
+           porte_attendue = 'N' 
+        elif self.direction_entree == pygame.K_q: 
+           porte_attendue = 'E' 
+        elif self.direction_entree == pygame.K_d: 
+           porte_attendue = 'O' 
 
-        # 2) Vérifier le coût en gemmes
+        if porte_attendue is not None:
+            rotation_count = 0
+            
+            # Tente de tourner (max 4 fois) pour garantir la connexion
+            while not piece_choisie.portes.get(porte_attendue, False) and rotation_count < 4:
+                piece_choisie.rotate() 
+                rotation_count += 1
+                
+            # Échec de l'alignement après 4 rotations
+            if rotation_count == 4 and not piece_choisie.portes.get(porte_attendue, False):
+                print(f"❌ ERREUR: La pièce {piece_choisie.nom} ne peut pas être alignée (pas de porte {porte_attendue}).")
+                # Rendre les clés consommées si l'alignement échoue
+                self.inventaire.cles += cles_consommees 
+                return # Bloque le placement
+
+        
+        # --- 3. VÉRIFICATION DU COÛT EN GEMMES ---
+        
         if self.inventaire.gemmes < piece_choisie.cout_gemmes:
-            print("Pas assez de gemmes pour cette pièce.")
-            return
+           print("❌ Pas assez de gemmes pour cette pièce.")
+           # Rendre les clés consommées si les gemmes manquent
+           self.inventaire.cles += cles_consommees 
+           return
 
+        # Consommation des gemmes
         self.inventaire.gemmes -= piece_choisie.cout_gemmes
 
-        # 3) Placer la pièce dans la map
-        self.manoir.map[self.cible_y][self.cible_x] = piece_choisie
 
-        # 4) Déplacer le joueur dans cette nouvelle pièce
+        # --- 4. PLACEMENT DE LA PIÈCE ET DÉPLACEMENT ---
+        
+        # Placer la pièce dans la map
+        self.manoir.map[self.cible_y][self.cible_x] = piece_choisie
+        
+        # Déplacer le joueur
         self.joueur.x = self.cible_x
         self.joueur.y = self.cible_y
+        
+        # Marquer la pièce comme visitée
+        piece_choisie.visitee = True
 
-        # 5) Appliquer les objets/bonus
+
+        # --- 5. APPLICATION DES OBJETS ET BONUS ---
         if piece_choisie.objets:
-            # ressources (jamais négatives)
-            gain_cles = piece_choisie.objets.get('cles', 0)
-            self.inventaire.cles = max(0, self.inventaire.cles + gain_cles)
-
-            gain_gemmes = piece_choisie.objets.get('gemmes', 0)
-            self.inventaire.gemmes = max(0, self.inventaire.gemmes + gain_gemmes)
-
-            gain_or = piece_choisie.objets.get('pieces_or', 0)
-            self.inventaire.pieces_or = max(0, self.inventaire.pieces_or + gain_or)
-
+            # Gains/pertes de ressources
+            self.inventaire.cles = max(0, self.inventaire.cles + piece_choisie.objets.get('cles', 0))
+            self.inventaire.gemmes = max(0, self.inventaire.gemmes + piece_choisie.objets.get('gemmes', 0))
+            self.inventaire.pieces_or = max(0, self.inventaire.pieces_or + piece_choisie.objets.get('pieces_or', 0))
             self.inventaire.pas += piece_choisie.objets.get('pas', 0)
-
-            # Objets permanents
-            if piece_choisie.objets.get('marteau', 0) > 0:
+            
+            # Application des objets permanents
+            if piece_choisie.objets.get('marteau'):
                 self.inventaire.marteau = True
-            if piece_choisie.objets.get('pelle', 0) > 0:
+            if piece_choisie.objets.get('pelle'):
                 self.inventaire.pelle = True
-            if piece_choisie.objets.get('kit_crochetage', 0) > 0:
+            if piece_choisie.objets.get('kit_crochetage'):
                 self.inventaire.kit_crochetage = True
-            if piece_choisie.objets.get('detecteur_metal', 0) > 0:
+            if piece_choisie.objets.get('detecteur_metal'):
                 self.inventaire.detecteur_metal = True
-            if piece_choisie.objets.get('patte_lapin', 0) > 0:
+            if piece_choisie.objets.get('patte_lapin'):
                 self.inventaire.patte_lapin = True
 
-        print(f"Pièce {piece_choisie.nom} placée. Clés restantes : {self.inventaire.cles}")
+        print(f"✅ Pièce {piece_choisie.nom} placée et alignée.")
 
-        # Reset
+        # --- 6. RETOUR À L'ÉTAT DÉPLACEMENT ---
         self.etat_jeu = STATE_DEPLACEMENT
         self.pieces_proposees = []
         self.direction_entree = None
-        self.cible_x = -1
-        self.cible_y = -1
-
 
     def _afficher_choix_piece(self):
         w, h = self.screen.get_width(), self.screen.get_height()
@@ -366,12 +394,25 @@ class game:
                             # On réinitialise la direction visée
                             self.direction_visee = None
 
+                    
+
                     # ------- ÉTAT CHOIX PIECE -------
                     elif self.etat_jeu == STATE_CHOIX_PIECE:
                         if event.key == pygame.K_q and self.index_choix > 0:
                             self.index_choix -= 1
                         elif event.key == pygame.K_d and self.index_choix < len(self.pieces_proposees) - 1:
                             self.index_choix += 1
+                        
+                        # --- NOUVEAU : ROTATION MANUELLE AVEC 'R' ---
+                        elif event.key == pygame.K_r:
+                            # 1. Récupérer la pièce actuellement sélectionnée
+                            piece_a_tourner = self.pieces_proposees[self.index_choix]
+                            
+                            # 2. Appeler la méthode rotate() de l'objet Piece
+                            piece_a_tourner.rotate()
+                            print(f"Rotation manuelle appliquée à la pièce : {piece_a_tourner.nom}")
+                            
+                        # 3. VALIDER le choix (ENTRÉE)
                         elif event.key == pygame.K_RETURN:
                             self._valider_choix_piece()
 
