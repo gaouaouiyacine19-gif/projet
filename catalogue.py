@@ -15,7 +15,7 @@ class CataloguePiece:
         
         # --- PIÈCES BLEUES (Rareté 0) ---
         
-        # 1. MAGASIN (Entrée S, Cul-de-sac)
+        # 1. MAGASIN 
         catalogue.append(Piece(
             nom="Magasin",
             image_path='assets/images/bleumagasin.png',
@@ -26,27 +26,26 @@ class CataloguePiece:
             type_piece="magasin" 
         ))
 
-        # 2. GARAGE (Entrée S, Cul-de-sac)
+        # 2. GARAGE 
         catalogue.append(Piece(
             nom="Garage",
             image_path='assets/images/bleugarage.png',
             rareté=0,
             cout_gemmes=1,
             portes={'S': True},
-
             objets={'cles': 3},
             type_piece="standard"
         
         ))
         
-        # 3.  winne cellar (Entrée S, Cul-de-sac)
+        # 3.  winne cellar 
         catalogue.append(Piece(
             nom="winne cellar",
             image_path='assets/images/bleuWineCellar.png',
             rareté=0,
             cout_gemmes=1,
             portes={'S': True},
-            objets={'pieces_or': 1},
+            objets={'pieces_or': 3},
             type_piece="standard"
         ))
         # 4. galerie  (Entrée S, Cul-de-sac)
@@ -57,7 +56,7 @@ class CataloguePiece:
             rareté=0,
             cout_gemmes=1,
             portes={'N': True,'S': True},
-            objets={},
+            objets={'pas':5},
             type_piece="standard"
         ))
          # 5 salle a glasse (Entrée S, Cul-de-sac)
@@ -67,7 +66,7 @@ class CataloguePiece:
             rareté=0,
             cout_gemmes=1,
             portes={ 'S': True},
-            objets={'cles': 0},
+            objets={'cles': 0,'marteau': 1},
             type_piece="standard"
         ))
 
@@ -78,8 +77,11 @@ class CataloguePiece:
             rareté=0,
             cout_gemmes=2,
             portes={'S': True, 'O':True}, 
-            objets={'cles': 3},
+            objets={'cles': 1, 'pelle': 1},
+            
             type_piece="standard"
+            
+
         ))
         
         # 7. VESTIAIRE (Entrée S, Sortie N)
@@ -89,8 +91,10 @@ class CataloguePiece:
             rareté=0,
             cout_gemmes=0,
             portes={'S': True, 'N': True},
-            objets={'cles': 1},
+            objets={'pas': 2,'patte_lapin': 1},
             type_piece="vestiaire"
+            
+
         ))
          
         
@@ -101,8 +105,10 @@ class CataloguePiece:
             rareté=0,
             cout_gemmes=1,
             portes={'S': True,'O': True},
-            objets={'cles': 1},
+            objets={'cles': 1,'detecteur_metal': 1},
             type_piece="chambre"
+           
+
         ))
 
         # 9. Cuisine (entrée S, sorties E et O)
@@ -112,8 +118,10 @@ class CataloguePiece:
             rareté=0,
             cout_gemmes=0,
             portes={'S': True, 'O': True},
-            objets={'pieces_or': 4},
+            objets={'pieces_or': 4,'marteau': 1},
             type_piece="standard"
+           
+
         ))
          # 10. Salle Den  (S et E, donne une clé)
         catalogue.append(Piece(
@@ -122,8 +130,10 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=2,
             portes={'S': True, 'E': True, 'O': True},
-            objets={'pieces_or': 1},
+            objets={'des': 1,'pelle': 1},
             type_piece="standard"
+            
+
         ))
         # 11 salon (S et N, donne 2 gemmes)
         catalogue.append(Piece(
@@ -132,7 +142,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'S': True, 'O': True},
-            objets={'gemmes': 2},
+            objets={'gemmes': 5,'kit_crochetage': 1,'cles': 1},
             type_piece="chambre"
         ))
 
@@ -157,6 +167,100 @@ class CataloguePiece:
             objets={'gemmes': 2},
             type_piece="chambre"
         ))
+        #14
+         
+        catalogue.append(Piece(
+            nom="Work shop",
+            image_path='assets/images/bleuWorkshop.png',
+            rareté=0,
+            cout_gemmes=0,
+            portes={'S': True,'N':True}, 
+            objets={'cles': 1, 'gemmes': 1, 'pieces_or': 1},
+            type_piece="magasin" 
+        ))
+
+        #15
+        catalogue.append(Piece(
+            nom="Study",
+            image_path='assets/images/bleuStudy.png',
+            rareté=0,
+            cout_gemmes=0,
+            portes={'S': True}, 
+            objets={'cles': 1, 'gemmes': 1, 'pieces_or': 1},
+            type_piece="study" 
+        ))
+        #16
+        catalogue.append(Piece(
+            nom="Spare Room",
+            image_path='assets/images/bleuSpareRoom.png',
+            rareté=0,
+            cout_gemmes=0,
+            portes={'S': True,'N':True}, 
+            objets={'cles': 1, 'gemmes': 1, 'pieces_or': 1,'detecteur_metal': 1},
+            type_piece="magasin" 
+          
+        ))
+
+        #17
+        catalogue.append(Piece(
+            nom="Security",
+            image_path='assets/images/bleuSecurity.png',
+            rareté=0,
+            cout_gemmes=1,
+            portes={'S': True,'E':True,'O':True}, 
+            objets={'cles': 1, 'gemmes': 1, 'pieces_or': 1,'marteau': 1},
+            
+            type_piece="magasin" 
+            
+
+        ))
+
+
+        #18
+        catalogue.append(Piece(
+            nom="Obser vatory",
+            image_path='assets/images/bleuObservatory.png',
+            rareté=0,
+            cout_gemmes=0,
+            portes={'S': True,'O':True}, 
+            objets={'cles': 0, 'gemmes': 2, 'pieces_or': 0},
+            type_piece="magasin" 
+        ))
+
+        #19
+        catalogue.append(Piece(
+            nom="Laboratory ",
+            image_path='assets/images/bleuLaboratory.png',
+            rareté=0,
+            cout_gemmes=1,
+            portes={'S': True,'O':True}, 
+            objets={'cles': 1, 'gemmes': 1, 'pieces_or': 1},
+            type_piece="magasin" 
+        ))
+        #20
+        catalogue.append(Piece(
+            nom="Dining Room ",
+            image_path='assets/images/bleuDiningRoom.png',
+            rareté=0,
+            cout_gemmes=1,
+            portes={'S': True,'O':True,'E':True}, 
+            objets={'cles': 0, 'gemmes': 2, 'pieces_or': 0},
+            type_piece="magasin" 
+        ))
+        
+        #21
+        catalogue.append(Piece(
+            nom="Drawing Room",
+            image_path='assets/images/bleuDrawingRoom.png',
+            rareté=0,
+            cout_gemmes=0,
+            portes={'S': True,'O':True,'E':True}, 
+            objets={'cles': -1, 'gemmes': 0, 'pieces_or': 1,'marteau': 1},
+            type_piece="magasin" 
+            
+
+        ))
+
 
         #  PIÈCES VERTES ET jaune  (un peu plus rares : rareté 1) 
           # 1 foyer (entrée S, sortie N)
@@ -167,7 +271,7 @@ class CataloguePiece:
             rareté=0,
             cout_gemmes=0,
             portes={'S': True, 'N': True},
-            objets={'gemmes': 1},
+            objets={'gemmes': 0},
             type_piece="foyer"
         
         ))
@@ -180,7 +284,7 @@ class CataloguePiece:
             cout_gemmes=1,
             portes={'S': True, 'E': True, 'O': True},
             objets={'gemmes': 1},
-            type_piece="vert"
+            type_piece="chambre"
         ))
 
         # 2- chambre patio
@@ -191,8 +295,13 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={ 'S': True ,'O': True},
-            objets={'cles': 1},
-            type_piece="vert"  
+            objets={'cles': -1,'pas': 5,'marteau': 1},
+            
+
+            type_piece="Patio"  
+            
+
+
         ))
 
 
@@ -204,7 +313,8 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={ 'S': True, 'E': True, 'O': True},
-            objets={'pieces_or': 1 , 'gemmes': 1},
+            objets={'pieces_or': 2 , 'gemmes': 2,'marteau': 1,'pas': -5},
+
             type_piece="vert"
         ))
           
@@ -229,7 +339,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={ 'S': True},
-            objets={'pieces_or': 2},
+            objets={'pieces_or':-2,'detecteur_metal': 1,'gemmes': 2},
             type_piece="vert"
         ))
 
@@ -241,7 +351,9 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'N': True, 'S': True, 'E': True, 'O': True},
-            objets={'cles': 1, 'gemmes': 1},
+            objets={'cles': 1, 'gemmes': 1,'kit_crochetage': 1},
+        
+
             type_piece="vert"
         ))
 
@@ -253,8 +365,9 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'N': True, 'S': True},
-            objets={'pieces_or': 1, 'gemmes': 1},
-           type_piece="vert"
+            objets={'pieces_or': 2, 'gemmes': 3,'pelle': 2,'cles': 1},
+
+            type_piece="vert"
         ))
 
         
@@ -267,7 +380,7 @@ class CataloguePiece:
             cout_gemmes=1,
             portes={'O': True, 'S': True,},
             objets={'pieces_or': 1, 'gemmes': 1},
-           type_piece="jaune"
+            type_piece="jaune"
         ))
           # 2 chambre corridor (tout les porte sont ouvert )
         catalogue.append(Piece(
@@ -275,9 +388,9 @@ class CataloguePiece:
             image_path='assets/images/jauneCorridor.png',
             rareté=1,
             cout_gemmes=0,
-            portes={'N': True, 'S': True, },
-            objets={},
-           type_piece="jaune"
+            portes={'N': True, 'S': True },
+            objets={'pas': -2},
+            type_piece="jaune"
         ))
          # jaune 
         catalogue.append(Piece(
@@ -287,7 +400,9 @@ class CataloguePiece:
             cout_gemmes=1,
             portes={'S': True, 'E': True, 'O': True},
             objets={'pieces_or': 1, 'gemmes': 2},
-           type_piece="jaune"
+            
+
+            type_piece="jaune"
         ))
  # jaune 
         catalogue.append(Piece(
@@ -297,7 +412,7 @@ class CataloguePiece:
             cout_gemmes=1,
             portes={ 'S': True, 'E': True, 'O': True},
             objets={'pieces_or': 1, 'gemmes': 1},
-           type_piece="jaune"
+            type_piece="jaune"
         ))
  # jaune 
         catalogue.append(Piece(
@@ -306,8 +421,9 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={ 'S': True},
-            objets={'pieces_or': 1, 'gemmes': 1},
-           type_piece="jaune"
+            objets={'pieces_or': 0, 'gemmes': 1,'kit_crochetage': 1},
+
+            type_piece="jaune"
         ))
  # jaune 
         catalogue.append(Piece(
@@ -316,8 +432,9 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'N': True, 'S': True, 'E': True, 'O': True},
-            objets={'pieces_or': 1, 'gemmes': 1},
-           type_piece="jaune"
+            objets={'marteau': 1},
+
+            type_piece="jaune"
         ))
  # jaune 
         catalogue.append(Piece(
@@ -327,7 +444,7 @@ class CataloguePiece:
             cout_gemmes=1,
             portes={ 'S': True},
             objets={'pieces_or': 1, 'gemmes': 1},
-           type_piece="jaune"
+            type_piece="jaune"
         ))
  # jaune 
         catalogue.append(Piece(
@@ -337,7 +454,7 @@ class CataloguePiece:
             cout_gemmes=1,
             portes={ 'S': True,'O':True},
             objets={'pieces_or': 1, 'gemmes': 1},
-           type_piece="jaune"
+            type_piece="jaune"
         ))
        
 
@@ -349,7 +466,9 @@ class CataloguePiece:
             cout_gemmes=1,
             portes={'O': True, 'S': True},
             objets={'pieces_or': 1, 'gemmes': 1},
-           type_piece="jaune"
+            type_piece="jaune"
+            
+
         ))
 
 
@@ -359,8 +478,8 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'N': True, 'S': True},
-            objets={'pieces_or': 1, 'gemmes': 1},
-           type_piece="jaune"
+            objets={'pelle': 1},
+            type_piece="jaune"
         ))
 
         catalogue.append(Piece(
@@ -369,8 +488,10 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={ 'S': True, 'E': True, 'O': True},
-            objets={'pieces_or': 1, 'gemmes': 1},
-           type_piece="jaune"
+            objets={'des': 1, 'gemmes': 1,'detecteur_metal': 1},
+            type_piece="jaune"
+            
+
         ))
         
 
@@ -390,7 +511,7 @@ class CataloguePiece:
             cout_gemmes=3,
             portes={'S': True},
             objets={'pieces_or': -2, 'gemmes': -5,'cles': -1 },
-            type_piece="tresor"
+            type_piece="Toilettes"
         ))
 
         # 2 Chambre salle de sporte(donne des clés mais coûte cher)
@@ -411,8 +532,10 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=2,
             portes={'S': True, 'O': True,'E': True },
-            objets={'cles': -1 ,'pieces_or': -1},
+            objets={'cles': -1 ,'pieces_or': -1,'pas' : 5},
             type_piece="piege"
+            
+
         ))
 
 
@@ -444,7 +567,7 @@ class CataloguePiece:
             nom="Furnace",
             image_path='assets/images/rougeFurnace.png',
             rareté=2,
-            cout_gemmes=3,
+            cout_gemmes=0,
             portes={ 'S': True},
             objets={'pieces_or': -2,'cles': -1 },
             type_piece="Furnace"
@@ -508,7 +631,9 @@ class CataloguePiece:
             rareté=3,
             cout_gemmes=3,
             portes={'O': True, 'S': True,},
-            objets={'gemmes': 5, 'pieces_or': 2},
+            objets={'gemmes': 5, 'pieces_or': 2,'marteau': 1},
+            
+
             type_piece="violet"
         ))
 
@@ -528,7 +653,8 @@ class CataloguePiece:
             rareté=3,
             cout_gemmes=3,
             portes={ 'S': True},
-            objets={'cles': 2},
+            objets={'cles': 2,'patte_lapin': 1},
+
             type_piece="violet"
         ))
 
@@ -548,7 +674,8 @@ class CataloguePiece:
             rareté=3,
             cout_gemmes=3,
             portes={'s': True},
-            objets={ 'gemmes': 5},
+            objets={ 'gemmes': 5,'pas': -5},
+
             type_piece="violet"
         ))
 
@@ -558,7 +685,8 @@ class CataloguePiece:
             rareté=3,
             cout_gemmes=2,
             portes={'S': True},
-            objets={'pas':5},
+            objets={'pas':5,'marteau': 1},
+
             type_piece="violet"
         ))
            # PIÈCE MULTICOLORE SPÉCIALE 
