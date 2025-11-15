@@ -62,49 +62,71 @@ class Game:
     def _valider_choix_piece(self):
         """Place la pièce choisie, déduit le coût, déplace le joueur et exécute les effets."""
         piece_choisie = self.pieces_proposees[self.index_choix]
+        # 1) Vérifier le level_lock (nombre de clés nécessaires)
+        level = getattr(piece_choisie, "level_lock", 0)
+        if level > 0:
+            if self.inventaire.cles < level:
+                print(f"❌ Pas assez de clés : il faut {level} clé(s), vous n'en avez que {self.inventaire.cles}.")
+            return  # on ne place pas la pièce, on reste dans le menu
+             # Si tu veux que les clés soient consommées :
+            self.inventaire.cles -= level
+            print(f"{level} clé(s) consommée(s) pour entrer dans cette pièce.")
 
-        # 🔄 1) Déterminer la face d'entrée (N/S/E/O) selon la direction d'entrée
+    # 2) Gérer la rotation selon la direction d'entrée
         entree = None
-        if self.direction_entree == pygame.K_z:   # tu montes
-            entree = 'S'   # tu entres par le bas de la nouvelle pièce
-        elif self.direction_entree == pygame.K_s: # tu descends
-            entree = 'N'   # tu entres par le haut
-        elif self.direction_entree == pygame.K_q: # tu vas à gauche
-            entree = 'E'   # tu entres par la droite
-        elif self.direction_entree == pygame.K_d: # tu vas à droite
-            entree = 'O'   # tu entres par la gauche
 
-        # 🔄 2) Faire tourner la pièce pour que la case d'entrée ait une porte ouverte
+        if self.direction_entree == pygame.K_z:
+           entree = 'S'
+        elif self.direction_entree == pygame.K_s:
+           entree = 'N'
+        elif self.direction_entree == pygame.K_q:
+           entree = 'E'
+        elif self.direction_entree == pygame.K_d:
+           entree = 'O'
+
         if entree is not None:
-            for _ in range(4):  # max 4 rotations
-                if piece_choisie.portes.get(entree, False):
-                    break
-                piece_choisie.rotate()
+            for _ in range(4):
 
-        if self.inventaire.gemmes >= piece_choisie.cout_gemmes:
-            self.inventaire.gemmes -= piece_choisie.cout_gemmes
-            
-            # Placement de la pièce et mouvement du joueur
-            self.manoir.map[self.cible_y][self.cible_x] = piece_choisie
-            self.joueur.x = self.cible_x
-            self.joueur.y = self.cible_y
-            
-            # Exécuter les effets (collecte des objets)
-            if piece_choisie.objets:
-                self.inventaire.cles += piece_choisie.objets.get('cles', 0)
-                self.inventaire.gemmes += piece_choisie.objets.get('gemmes', 0)
-                self.inventaire.pieces_or += piece_choisie.objets.get('pieces_or', 0)
-                # Si tu utilises des 'pas' dans objets :
-                self.inventaire.pas += piece_choisie.objets.get('pas', 0)
-            
-            print(f"Pièce {piece_choisie.nom} placée. Nouveau total de clés: {self.inventaire.cles}")
+               if piece_choisie.portes.get(entree, False):
 
-            # Nettoyage et retour au mode déplacement
-            self.etat_jeu = STATE_DEPLACEMENT
-            self.pieces_proposees = []
-            self.direction_entree = None
-        else:
-            print("Pas assez de gemmes pour cette pièce.")
+                break
+            piece_choisie.rotate()
+
+    # 3) Vérifier les gemmes
+        if self.inventaire.gemmes < piece_choisie.cout_gemmes:
+           print("Pas assez de gemmes pour cette pièce.")
+           return
+
+        self.inventaire.gemmes -= piece_choisie.cout_gemmes
+
+    # 4) Placement de la pièce et déplacement du joueur
+        self.manoir.map[self.cible_y][self.cible_x] = piece_choisie
+        self.joueur.x = self.cible_x
+        self.joueur.y = self.cible_y
+
+    # 5) Application des objets
+        if piece_choisie.objets:
+
+            gain_cles = piece_choisie.objets.get('cles', 0)
+            self.inventaire.cles = max(0, self.inventaire.cles + gain_cles)
+
+            gain_gemmes = piece_choisie.objets.get('gemmes', 0)
+            self.inventaire.gemmes = max(0, self.inventaire.gemmes + gain_gemmes)
+
+            gain_or = piece_choisie.objets.get('pieces_or', 0)
+            self.inventaire.pieces_or = max(0, self.inventaire.pieces_or + gain_or)
+
+            self.inventaire.pas += piece_choisie.objets.get('pas', 0)
+
+        print(f"Pièce {piece_choisie.nom} placée. Clés restantes : {self.inventaire.cles}")
+
+    # Retour au mode déplacement
+        self.etat_jeu = STATE_DEPLACEMENT
+        self.pieces_proposees = []
+        self.direction_entree = None
+
+
+
 
 
     def _afficher_choix_piece(self):

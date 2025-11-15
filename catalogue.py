@@ -13,17 +13,6 @@ class CataloguePiece:
         
         catalogue = []
         
-        # --- PIÈCES BLEUES (Rareté 0) ---
-        catalogue.append(Piece(
-            nom="TEST PORTE VERROUILLEE",
-            image_path='assets/images/bleumagasin.png',
-            rareté=0,
-            cout_gemmes=0,
-            portes={'S': True},
-            lock_level=1,
-            objets={},
-            type_piece="test"
-        ))
 
         # 1. MAGASIN 
         catalogue.append(Piece(
