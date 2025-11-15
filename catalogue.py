@@ -14,7 +14,17 @@ class CataloguePiece:
         catalogue = []
         
         # --- PIÈCES BLEUES (Rareté 0) ---
-        
+        catalogue.append(Piece(
+            nom="TEST PORTE VERROUILLEE",
+            image_path='assets/images/bleumagasin.png',
+            rareté=0,
+            cout_gemmes=0,
+            portes={'S': True},
+            lock_level=1,
+            objets={},
+            type_piece="test"
+        ))
+
         # 1. MAGASIN 
         catalogue.append(Piece(
             nom="Magasin",
@@ -287,24 +297,20 @@ class CataloguePiece:
             type_piece="chambre"
         ))
 
-        # 2- chambre patio
-
+        # VERT 2 — patio (verrouillée)
         catalogue.append(Piece(
             nom="patio",
             image_path='assets/images/vertpatio.png',
             rareté=1,
             cout_gemmes=1,
-            portes={ 'S': True ,'O': True},
-            objets={'cles': -1,'pas': 5,'marteau': 1},
-            
-
-            type_piece="Patio"  
-            
-
-
+            portes={'S': True, 'O': True},
+            lock_level=1,      # nécessite 1 clé
+            objets={'cles': -1, 'pas': 5, 'marteau': 1},
+            type_piece="Patio"
+    
         ))
 
-
+            
         # 3- chambre jardin
 
         catalogue.append(Piece(
@@ -326,6 +332,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'S': True},
+            lock_level=1, 
             objets={'gemmes': 2},
             type_piece="vert"
             ))
@@ -339,6 +346,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={ 'S': True},
+            lock_level=1, 
             objets={'pieces_or':-2,'detecteur_metal': 1,'gemmes': 2},
             type_piece="vert"
         ))
@@ -365,6 +373,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'N': True, 'S': True},
+            lock_level=1, 
             objets={'pieces_or': 2, 'gemmes': 3,'pelle': 2,'cles': 1},
 
             type_piece="vert"
@@ -379,6 +388,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'O': True, 'S': True,},
+            lock_level=1, 
             objets={'pieces_or': 1, 'gemmes': 1},
             type_piece="jaune"
         ))
@@ -421,6 +431,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={ 'S': True},
+            lock_level=1, 
             objets={'pieces_or': 0, 'gemmes': 1,'kit_crochetage': 1},
 
             type_piece="jaune"
@@ -432,6 +443,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'N': True, 'S': True, 'E': True, 'O': True},
+            lock_level=1, 
             objets={'marteau': 1},
 
             type_piece="jaune"
@@ -443,6 +455,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={ 'S': True},
+            lock_level=1, 
             objets={'pieces_or': 1, 'gemmes': 1},
             type_piece="jaune"
         ))
@@ -453,6 +466,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={ 'S': True,'O':True},
+            lock_level=1, 
             objets={'pieces_or': 1, 'gemmes': 1},
             type_piece="jaune"
         ))
@@ -465,6 +479,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'O': True, 'S': True},
+            lock_level=2, 
             objets={'pieces_or': 1, 'gemmes': 1},
             type_piece="jaune"
             
@@ -478,6 +493,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'N': True, 'S': True},
+            lock_level=1, 
             objets={'pelle': 1},
             type_piece="jaune"
         ))
@@ -510,6 +526,7 @@ class CataloguePiece:
             rareté=2,
             cout_gemmes=3,
             portes={'S': True},
+            lock_level=1, 
             objets={'pieces_or': -2, 'gemmes': -5,'cles': -1 },
             type_piece="Toilettes"
         ))
@@ -521,6 +538,7 @@ class CataloguePiece:
             rareté=2,
             cout_gemmes=2,
             portes={'S': True, 'O': True,'E': True, 'N': True},
+            lock_level=1, 
             objets={'gemmes': -6},
             type_piece="piege"
         ))
@@ -532,6 +550,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=2,
             portes={'S': True, 'O': True,'E': True },
+            lock_level=1, 
             objets={'cles': -1 ,'pieces_or': -1,'pas' : 5},
             type_piece="piege"
             
@@ -547,6 +566,7 @@ class CataloguePiece:
             rareté=2,
             cout_gemmes=3,
             portes={'N': True, 'S': True, 'E': True, 'O': True},
+            lock_level=2, 
             objets={'pieces_or':-1 , 'gemmes': 2,'cles': 1 },
             type_piece="tresor"
         ))
@@ -558,6 +578,7 @@ class CataloguePiece:
             rareté=2,
             cout_gemmes=3,
             portes={'S': True, 'E': True, 'O': True},
+            lock_level=1, 
             objets={ 'gemmes': -1,'cles': -1 },
             type_piece="tresor"
         ))
@@ -569,6 +590,7 @@ class CataloguePiece:
             rareté=2,
             cout_gemmes=0,
             portes={ 'S': True},
+            lock_level=2, 
             objets={'pieces_or': -2,'cles': -1 },
             type_piece="Furnace"
         ))
@@ -580,6 +602,7 @@ class CataloguePiece:
             rareté=2,
             cout_gemmes=3,
             portes={'S': True, 'E': True, 'O': True},
+            lock_level=2, 
             objets={'pieces_or': 0, 'gemmes': -5,'cles': -1 },
             type_piece="tresor"
         ))
@@ -590,6 +613,7 @@ class CataloguePiece:
             rareté=2,
             cout_gemmes=3,
             portes={'S': True, 'E': True, 'O': True},
+            lock_level=1, 
             objets={'pieces_or': -1, 'gemmes': 5,'cles': -2 },
             type_piece="tresor"
         ))
@@ -602,6 +626,7 @@ class CataloguePiece:
             rareté=2,
             cout_gemmes=3,
             portes={'N': True, 'S': True, 'E': True, 'O': True},
+            lock_level=3, 
             objets={'pieces_or': -2, 'gemmes': -5,'cles': +3 },
             type_piece="tresor"
         ))
@@ -620,6 +645,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'S': True},
+            lock_level=1, 
             objets={'gemmes': 10},
             type_piece="chambre"
         ))
@@ -631,6 +657,7 @@ class CataloguePiece:
             rareté=3,
             cout_gemmes=3,
             portes={'O': True, 'S': True,},
+            lock_level=2, 
             objets={'gemmes': 5, 'pieces_or': 2,'marteau': 1},
             
 
@@ -643,6 +670,7 @@ class CataloguePiece:
             rareté=3,
             cout_gemmes=4,
             portes={'O': True, 'S': True},
+            lock_level=2, 
             objets={'cles': 2, 'gemmes': 3,'pas':5},
             type_piece="violet"
         ))
@@ -653,6 +681,7 @@ class CataloguePiece:
             rareté=3,
             cout_gemmes=3,
             portes={ 'S': True},
+            lock_level=1, 
             objets={'cles': 2,'patte_lapin': 1},
 
             type_piece="violet"
@@ -664,6 +693,7 @@ class CataloguePiece:
             rareté=3,
             cout_gemmes=4,
             portes={'O': True, 'S': True},
+            lock_level=2, 
             objets={'gemmes': 10, 'cles': 1},
             type_piece="violet"
         ))
@@ -673,7 +703,8 @@ class CataloguePiece:
             image_path='assets/images/viochambreparentale.png',
             rareté=3,
             cout_gemmes=3,
-            portes={'s': True},
+            portes={'S': True},
+            lock_level=2, 
             objets={ 'gemmes': 5,'pas': -5},
 
             type_piece="violet"
@@ -685,6 +716,7 @@ class CataloguePiece:
             rareté=3,
             cout_gemmes=2,
             portes={'S': True},
+            lock_level=1, 
             objets={'pas':5,'marteau': 1},
 
             type_piece="violet"
@@ -697,6 +729,7 @@ class CataloguePiece:
            rareté=1,
            cout_gemmes=4,
            portes={'S': True, 'E': True, 'O': True},
+           lock_level=3, 
            objets={'cles': 2, 'gemmes': 3, 'pieces_or': 5, 'pas': 10},
            type_piece="multicolor"
 ))

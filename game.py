@@ -135,7 +135,10 @@ class Game:
             else:
                 pygame.draw.rect(self.screen, (100, 100, 100), (x_pos, y_pos, 190, 190))
 
+
             dessiner_texte(piece.nom, x_pos, y_pos + 200, (255, 255, 255))
+            dessiner_texte(f"level_lock: {piece.lock_level}", x_pos, y_pos - 25, (255, 120, 120))
+
             dessiner_texte(f"Coût: {piece.cout_gemmes} Gemmes", x_pos, y_pos + 225, (0, 255, 255))
             dessiner_texte(f"Clés: {piece.objets.get('cles', 0)}", x_pos, y_pos + 250, (255, 255, 100))
 
