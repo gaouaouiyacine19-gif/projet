@@ -18,57 +18,71 @@ class Manoir:
     def _initialiser_map(self):
         """Définit la grille 9x5 des pièces, y compris le départ et l'arrivée."""
         
-        # Pièce "non découverte" : image_path vide pour utiliser le fond de l'écran
-        PIECE_NON_DECOUVERTE = Piece(nom="Inconnu", image_path='') 
+        # Pièce "non découverte"
+        PIECE_NON_DECOUVERTE = Piece(
+            nom="Inconnu",
+            image_path='',
+            portes={'N': False, 'S': False, 'E': False, 'O': False},
+            lock_level=0
+        )
+
         manoir_map = [[PIECE_NON_DECOUVERTE for _ in range(self.cols)] for _ in range(self.rows)]
         
         COL_CIBLE = 2
         
-        # 1. Antichambre (ARRIVÉE, y=0, x=2)
+        # 1. Antichambre (ARRIVÉE)
         manoir_map[0][COL_CIBLE] = Piece(
             nom="Antichambre",
             image_path='assets/images/base.png', 
-            portes={'S': True}, 
+            portes={'S': True},
+            lock_level=0,
             type_piece="antichambre"
         )
         
-        # 2. Hall d'Entrée (DÉPART, y=8, x=2)
+        # 2. Hall d'Entrée (DÉPART)
         hall_entree = Piece(
             nom="Hall d'Entrée",
             image_path='assets/images/hall.png', 
-            portes={'N': True, 'E': True, 'O': True}, # Portes N, E, O ouvertes pour le départ
+            portes={'N': True, 'E': True, 'O': True},
+            lock_level=0,
             type_piece="hall_entree"
         )
         manoir_map[self.rows - 1][COL_CIBLE] = hall_entree
-        hall_entree.visitee = True # Marquer la pièce de départ comme visitée
+        hall_entree.visitee = True
         
         return manoir_map
         
     def _charger_toutes_images(self):
         """Charge toutes les images nécessaires (carte + catalogue)."""
-        
-        # Ignore les chemins vides ('') et récupère les chemins uniques
-        chemins_map = set(p.image_path for ligne in self.map for p in ligne if p.image_path)
-        chemins_catalogue = set(p.image_path for p in self.catalogue.pieces_disponibles if p.image_path)
+
+        chemins_map = set(
+            p.image_path for ligne in self.map for p in ligne if p.image_path
+        )
+        chemins_catalogue = set(
+            p.image_path for p in self.catalogue.pieces_disponibles if p.image_path
+        )
         chemins_totaux = chemins_map.union(chemins_catalogue)
         
         for path in chemins_totaux:
             if path not in self.images:
                 try:
                     img = pygame.image.load(path).convert_alpha()
-                    self.images[path] = pygame.transform.scale(img, (self.cell_size - 2, self.cell_size - 2))
-                    # Donner l'image aux pièces qui utilisent ce chemin
+                    img = pygame.transform.scale(img, (self.cell_size - 2, self.cell_size - 2))
+                    self.images[path] = img
+
+                    # Donner l'image aux pièces du manoir
                     for ligne in self.map:
                         for piece in ligne:
-                           if piece.image_path == path:
-                                piece.image = self.images[path]
-                    for piece in self.catalogue.pieces_disponibles:
-                           if piece.image_path == path:
-                                piece.image = self.images[path]
+                            if piece.image_path == path:
+                                piece.image = img.copy()
 
+                    # Donner l'image aux pièces du catalogue
+                    for piece in self.catalogue.pieces_disponibles:
+                        if piece.image_path == path:
+                            piece.image = img.copy()
 
                 except pygame.error as e:
-                    print(f"Erreur: Image '{path}' introuvable. Assurez-vous que le fichier existe: {e}")
+                    print(f"Erreur: Image '{path}' introuvable : {e}")
                     self.images[path] = None
 
     def _get_coords_top_left(self, x, y):
@@ -77,8 +91,6 @@ class Manoir:
         return (pixel_x, pixel_y)
 
     def afficher(self, screen):
-        # ... (Dessin des contours de la grille) ...
-        
         for y in range(self.rows):
             for x in range(self.cols):
                 rect = pygame.Rect(
@@ -88,13 +100,12 @@ class Manoir:
                     self.cell_size - 2
                 )
                 
-                piece_courante = self.map[y][x]
-                
-                # Dessin de l'image de la pièce SEULEMENT si un chemin existe et l'image est chargée
-                if piece_courante.image_path and piece_courante.image_path in self.images and self.images[piece_courante.image_path]:
-                    image_a_afficher = piece_courante.image
+                piece = self.map[y][x]
+
+                # Afficher l'image
+                if piece.image:
                     coords = self._get_coords_top_left(x, y)
-                    screen.blit(image_a_afficher, coords)
+                    screen.blit(piece.image, coords)
                     
-                # Dessin du contour
+                # Contour
                 pygame.draw.rect(screen, (80, 80, 100), rect, 1)
