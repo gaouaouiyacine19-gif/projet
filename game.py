@@ -302,7 +302,7 @@ class game:
             t2 = "Il faut une CLÉ. Y = ouvrir, N = annuler."
         elif lock == 2:
             t1 = "Porte verrouillée (niveau 2)."
-            t2 = "Il faut 2 CLÉS. Y = ouvrir, N = annuler."
+            t2 = "Il faut 1 Mrteau. Y = ouvrir, N = annuler."
         else:  # lock == 3
             t1 = " MUR "
             t2 = "Il faut une pelle pour creuser . Y = ouvrir, N = annuler."
