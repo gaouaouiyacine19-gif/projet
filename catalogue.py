@@ -20,8 +20,8 @@ class CataloguePiece:
             image_path='assets/images/bleumagasin.png',
             rareté=0,
             cout_gemmes=0,
-            portes={'S': True}, 
-            objets={'cles': 1, 'gemmes': 1, 'pieces_or': 1},
+            portes={'S': 0}, 
+            objets={'cles': 1, 'gemmes': 1, 'pieces_or': 1, 'pelle': 1 },
             type_piece="magasin" 
         ))
 
@@ -31,8 +31,8 @@ class CataloguePiece:
             image_path='assets/images/bleugarage.png',
             rareté=0,
             cout_gemmes=1,
-            portes={'S': True},
-            objets={'cles': 3},
+            portes={'S': 0},
+            objets={'cles': 3,'pelle': 1},
             type_piece="standard"
         
         ))
@@ -43,7 +43,7 @@ class CataloguePiece:
             image_path='assets/images/bleuWineCellar.png',
             rareté=0,
             cout_gemmes=1,
-            portes={'S': True},
+            portes={'S': 0},
             objets={'pieces_or': 3},
             type_piece="standard"
         ))
@@ -54,8 +54,8 @@ class CataloguePiece:
             image_path='assets/images/bleuGalerie.png',
             rareté=0,
             cout_gemmes=1,
-            portes={'N': True,'S': True},
-            objets={'pas':5},
+            portes={'N': 1,'S': True},
+            objets={'pas':5,'pelle': 1},
             type_piece="standard"
         ))
          # 5 salle a glasse (Entrée S, Cul-de-sac)
@@ -64,8 +64,8 @@ class CataloguePiece:
             image_path='assets/images/bleuglasse.png',
             rareté=0,
             cout_gemmes=1,
-            portes={ 'S': True},
-            objets={'cles': 0,'marteau': 1},
+            portes={ 'S': 0},
+            objets={'cles': 0,'marteau': 1,'pelle': 1},
             type_piece="standard"
         ))
 
@@ -75,8 +75,8 @@ class CataloguePiece:
             image_path='assets/images/bleumusique.png',
             rareté=0,
             cout_gemmes=2,
-            portes={'S': True, 'O':True}, 
-            objets={'cles': 1, 'pelle': 1},
+            portes={'S': 0, 'O':2 }, 
+            objets={'cles': 1, 'pelle': 1,'pelle': 1},
             
             type_piece="standard"
             
@@ -90,7 +90,7 @@ class CataloguePiece:
             rareté=0,
             cout_gemmes=0,
             portes={'S': True, 'N': True},
-            objets={'pas': 2,'patte_lapin': 1},
+            objets={'pas': 2,'patte_lapin': 1,'pelle': 1},
             type_piece="vestiaire"
             
 
@@ -141,7 +141,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'S': True, 'O': True},
-            objets={'gemmes': 5,'kit_crochetage': 1,'cles': 1},
+            objets={'gemmes': 5,'kit_crochetage': 1,'cles': 1,'pelle': 1},
             type_piece="chambre"
         ))
 
@@ -163,7 +163,7 @@ class CataloguePiece:
             rareté=1,
             cout_gemmes=1,
             portes={'S': True, 'O': True},
-            objets={'gemmes': 2},
+            objets={'gemmes': 2,'pelle': 1},
             type_piece="chambre"
         ))
         #14
@@ -185,7 +185,7 @@ class CataloguePiece:
             rareté=0,
             cout_gemmes=0,
             portes={'S': True}, 
-            objets={'cles': 1, 'gemmes': 1, 'pieces_or': 1},
+            objets={'cles': 1, 'gemmes': 1, 'pieces_or': 1,'pelle': 1},
             type_piece="study" 
         ))
         #16
@@ -243,7 +243,7 @@ class CataloguePiece:
             rareté=0,
             cout_gemmes=1,
             portes={'S': True,'O':True,'E':True}, 
-            objets={'cles': 0, 'gemmes': 2, 'pieces_or': 0},
+            objets={'cles': 0, 'gemmes': 2, 'pieces_or': 0,'pelle': 1},
             type_piece="magasin" 
         ))
         

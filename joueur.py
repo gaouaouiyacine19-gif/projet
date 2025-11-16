@@ -54,7 +54,7 @@ class Joueur:
                   'popup_porte': True,
                   'cible_x': prochain_x,
                   'cible_y': prochain_y,
-                  'lock_level': 1      # 1 = porte à clé (pour commencer)
+                  'lock_level': 3    # 1 = porte à clé (pour commencer)
             }
         
     

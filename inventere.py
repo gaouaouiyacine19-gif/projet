@@ -37,12 +37,12 @@ class Inventaire:
         y_pos = start_y
         dessiner_ligne = lambda txt, x, y, color: screen.blit(font.render(txt, True, color), (x, y))
 
-        dessiner_ligne("RESSOURCES", X_RESSOURCES, y_pos, (200, 200, 200))
+        dessiner_ligne("RESSOURCES", X_RESSOURCES, y_pos, (0, 0, 0))
         y_pos += line_height * 2
 
         for valeur, nom in ressources:
-            dessiner_ligne(f"{valeur}", X_RESSOURCES, y_pos, (255, 255, 255))
-            dessiner_ligne(nom, X_RESSOURCES + 50, y_pos, (150, 150, 150))
+            dessiner_ligne(f"{valeur}", X_RESSOURCES, y_pos, (0, 0, 0))
+            dessiner_ligne(nom, X_RESSOURCES + 50, y_pos, (0, 0, 0))
             y_pos += line_height
 
         # 2. AFFICHAGE DES OBJETS PERMANENTS (Colonne GAUCHE)
@@ -53,11 +53,11 @@ class Inventaire:
         ]
 
         y_pos = start_y
-        dessiner_ligne("OBJETS", X_PERMANENTS, y_pos, (200, 200, 200))
+        dessiner_ligne("OBJETS", X_PERMANENTS, y_pos, (0,0, 0))
         y_pos += line_height * 2
 
         for nom, possede in permanents:
-            couleur = (0, 255, 0) if possede else (150, 150, 150)
+            couleur = (0, 255, 0) if possede else (0,0, 0)
             statut = "[X]" if possede else "[ ]"
             
             dessiner_ligne(statut, X_PERMANENTS, y_pos, couleur)

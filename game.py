@@ -42,8 +42,32 @@ class game:
         self.popup_lock_level = 0
         self.popup_cible_x = -1
         self.popup_cible_y = -1
+        
+        # --- NOUVELLE SECTION : FOND D'ÉCRAN PRINCIPAL (bleuprince.png) ---
+        # 1. Définir la taille de l'écran (maintenant en attribut de la classe)
+        self.largeur_ecran, self.hauteur_ecran = screen.get_size() 
+        self.background_game_image = None
+        
+        try:
+            # Le chemin d'accès inclut le dossier 'assets/images/'
+            self.background_game_image = pygame.image.load('assets/images/bleuprince.png').convert_alpha()
+            
+            # Redimensionne l'image pour qu'elle couvre tout l'écran
+            self.background_game_image = pygame.transform.scale(
+                self.background_game_image, 
+                (self.largeur_ecran, self.hauteur_ecran)
+            )
+        except pygame.error as e:
+            print(f"Erreur de chargement de l'image de fond 'bleuprince.png': {e}")
+            # Crée un fond noir de secours si l'image manque
+            self.background_game_image = pygame.Surface((self.largeur_ecran, self.hauteur_ecran))
+            self.background_game_image.fill((0, 0, 0)) 
+        
+        # ----------------------------------------------------
 
-        # Images de fin de jeu
+        # Images de fin de jeu (Bloc existant)
+        self.img_win = None
+        self.img_gameover = None
         try:
             self.img_win = pygame.image.load('assets/images/win.png').convert_alpha()
             self.img_win = pygame.transform.scale(
@@ -60,7 +84,6 @@ class game:
             self.img_win = None
             self.img_gameover = None
             print("Avertissement: Images fin de jeu non trouvées.")
-
 
     # ----------------------
     # PIÈCES / CATALOGUE
@@ -281,8 +304,8 @@ class game:
             t1 = "Porte verrouillée (niveau 2)."
             t2 = "Il faut 2 CLÉS. Y = ouvrir, N = annuler."
         else:  # lock == 3
-            t1 = "Porte renforcée (niveau 3)."
-            t2 = "Il faut un MARTEAU. Y = ouvrir, N = annuler."
+            t1 = " MUR "
+            t2 = "Il faut une pelle pour creuser . Y = ouvrir, N = annuler."
 
         txt1 = font_titre.render(t1, True, (255, 255, 255))
         txt2 = font_texte.render(t2, True, (220, 220, 220))
@@ -290,61 +313,59 @@ class game:
         self.screen.blit(txt1, (x + 20, y + 40))
         self.screen.blit(txt2, (x + 20, y + 90))
 
+    # game.py
+
     def _ouvrir_porte_popup(self):
-        """Tente d'ouvrir la porte (si lock_level > 0). Si succès → choix de pièce."""
-        if self.popup_cible_x < 0 or self.popup_cible_y < 0:
-            self.etat_jeu = STATE_DEPLACEMENT
-            return
-
         lock = self.popup_lock_level
+        cible_x = self.popup_cible_x
+        cible_y = self.popup_cible_y
+        
+        ouverture_succes = False # Variable pour suivre si l'ouverture a réussi
 
-        # Cas mur simple (lock_level == 0) → rien à faire
-        if lock <= 0:
-            print("Ce mur ne peut pas être ouvert.")
-            return
+        # --- LOGIQUE D'OUVERTURE ---
 
-        piece_visee = self.manoir.map[self.popup_cible_y][self.popup_cible_x]
-
-        # 1) Vérifier les ressources selon lock_level
         if lock == 1:
-            if self.inventaire.cles <= 0:
-                print("Pas assez de clés pour ouvrir cette porte.")
-                return
-            self.inventaire.cles -= 1
-            print("Porte ouverte avec 1 clé.")
-
+            if self.inventaire.cles >= 1:
+                self.inventaire.cles -= 1
+                print("Porte ouverte avec 1 CLÉ.")
+                ouverture_succes = True
+            else:
+                print("Pas assez de CLÉS (niveau 1).")
+                
         elif lock == 2:
-            if self.inventaire.cles < 2:
-                print("Il faut 2 clés pour cette porte.")
-                return
-            self.inventaire.cles -= 2
-            print("Porte ouverte avec 2 clés.")
+            if self.inventaire.marteau: 
+                print("Porte ouverte avec le MARTEAU.")
+                ouverture_succes = True
+            else:
+                print("Il faut le MARTEAU (niveau 2).")
 
-        elif lock == 3:
-            if not self.inventaire.marteau:
-                print("Il faut un marteau pour cette porte.")
-                return
-            print("Porte ouverte avec le marteau.")
+        elif lock == 3: # LOGIQUE PELLE POUR LES MURS
+            if self.inventaire.pelle: 
+                print("Mur creusé avec succès (PELLE).")
+                ouverture_succes = True
+            else:
+                print("Il faut la PELLE pour creuser (niveau 3).")
+        
+        # --- PHASE DE TRANSITION (Exécutée SEULEMENT si succès) ---
 
-        # 2) Déverrouiller la case cible
-        piece_visee.lock_level = 0
+        if ouverture_succes:
+            # 1. Préparer le choix de pièce (le mur est toujours une pièce inconnue)
+            self.cible_x = cible_x
+            self.cible_y = cible_y
+            self.pieces_proposees = self._tirer_pieces()
+            self.direction_entree = self.direction_visee
+            self.index_choix = 0
+            
+            # 2. Changer l'état pour afficher le menu de choix
+            self.etat_jeu = STATE_CHOIX_PIECE 
+        else:
+            # En cas d'échec, on retourne simplement à l'état de déplacement
+            self.etat_jeu = STATE_DEPLACEMENT
 
-        # 3) On NE DÉPLACE PAS le joueur tout de suite.
-        #    À la place, on déclenche le choix de 3 pièces comme pour une case inconnue.
-        self.cible_x = self.popup_cible_x
-        self.cible_y = self.popup_cible_y
-        self.pieces_proposees = self._tirer_pieces()
-        self.index_choix = 0
-        self.direction_entree = self.direction_visee  # direction utilisée pour entrer
-
-        self.etat_jeu = STATE_CHOIX_PIECE
-
-        # Reset popup
+        # Réinitialiser les variables du pop-up quelle que soit l'issue
+        self.popup_lock_level = 0
         self.popup_cible_x = -1
         self.popup_cible_y = -1
-        self.popup_lock_level = 0
-
-
     # ----------------------
     # BOUCLE PRINCIPALE
     # ----------------------
@@ -364,7 +385,7 @@ class game:
                             resultat_visee = self.joueur.deplacer(
                                 event.key, self.manoir, self.inventaire, validation=False
                             )
-                            # On mémorise la direction seulement si mouvement possible
+                            # On mémorise la direction seulement si mouvement possible (porte ouverte/limite)
                             self.direction_visee = event.key if resultat_visee else None
 
                         # 2. VALIDATION (ESPACE)
@@ -375,7 +396,7 @@ class game:
 
                             if resultat is not None:
 
-                                # CAS : Popup porte / mur
+                                # CAS : Popup porte / mur (Vérification de verrouillage/ressources)
                                 if resultat.get('popup_porte'):
                                     self.popup_cible_x = resultat['cible_x']
                                     self.popup_cible_y = resultat['cible_y']
@@ -394,8 +415,6 @@ class game:
                             # On réinitialise la direction visée
                             self.direction_visee = None
 
-                    
-
                     # ------- ÉTAT CHOIX PIECE -------
                     elif self.etat_jeu == STATE_CHOIX_PIECE:
                         if event.key == pygame.K_q and self.index_choix > 0:
@@ -403,16 +422,13 @@ class game:
                         elif event.key == pygame.K_d and self.index_choix < len(self.pieces_proposees) - 1:
                             self.index_choix += 1
                         
-                        # --- NOUVEAU : ROTATION MANUELLE AVEC 'R' ---
+                        # ROTATION MANUELLE AVEC 'R'
                         elif event.key == pygame.K_r:
-                            # 1. Récupérer la pièce actuellement sélectionnée
                             piece_a_tourner = self.pieces_proposees[self.index_choix]
-                            
-                            # 2. Appeler la méthode rotate() de l'objet Piece
                             piece_a_tourner.rotate()
                             print(f"Rotation manuelle appliquée à la pièce : {piece_a_tourner.nom}")
                             
-                        # 3. VALIDER le choix (ENTRÉE)
+                        # VALIDER le choix (ENTRÉE)
                         elif event.key == pygame.K_RETURN:
                             self._valider_choix_piece()
 
@@ -429,30 +445,39 @@ class game:
                             self.popup_cible_y = -1
                             self.popup_lock_level = 0
 
-            # Victoire / Défaite
+            # Victoire / Défaite (Logique)
             if self.inventaire.pas <= 0 and not self.win:
                 self.game_over = True
 
             if self.joueur.x == 2 and self.joueur.y == 0:
                 self.win = True
 
-            # --- AFFICHAGE ---
-            self.screen.fill((30, 30, 40))
+            # --- DÉBUT DE LA PHASE D'AFFICHAGE UNIQUE ---
+            
+            # 1. Fond (Image bleuprince.png ou couleur de secours)
+            if self.background_game_image:
+                self.screen.blit(self.background_game_image, (0, 0))
+            else:
+                self.screen.fill((30, 30, 40)) 
+                
+            # 2. Éléments du jeu (Dessiné par-dessus le fond)
             self.manoir.afficher(self.screen)
             self.joueur.afficher(self.screen)
             self.inventaire.afficher(self.screen)
 
+            # 3. Menus et Popups (Dessiné par-dessus le jeu)
             if self.etat_jeu == STATE_CHOIX_PIECE:
                 self._afficher_choix_piece()
             elif self.etat_jeu == STATE_POPUP_PORTE:
                 self._afficher_popup_porte()
 
+            # 4. Écran de fin de jeu (Dessiné par-dessus tout)
             if self.game_over and self.img_gameover:
                 self.screen.blit(self.img_gameover, (0, 0))
             elif self.win and self.img_win:
                 self.screen.blit(self.img_win, (0, 0))
 
-            pygame.display.flip()
+            # --- FIN DE LA PHASE D'AFFICHAGE ---
+
+            pygame.display.flip() # UN SEUL APPEL À FLIP À LA FIN
             self.clock.tick(60)
-
-

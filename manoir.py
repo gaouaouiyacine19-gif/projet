@@ -108,4 +108,4 @@ class Manoir:
                     screen.blit(piece.image, coords)
                     
                 # Contour
-                pygame.draw.rect(screen, (80, 80, 100), rect, 1)
+                pygame.draw.rect(screen, (0, 0, 0), rect, 2)
