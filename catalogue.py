@@ -197,6 +197,7 @@ class CataloguePiece:
             portes={'S': True,'N':True}, 
             objets={'cles': 1, 'gemmes': 1, 'pieces_or': 1,'detecteur_metal': 1},
             type_piece="magasin" 
+            #jdjdj
           
         ))
 
