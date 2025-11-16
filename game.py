@@ -333,9 +333,10 @@ class game:
                 print("Pas assez de CLÉS (niveau 1).")
                 
         elif lock == 2:
+            
             if self.inventaire.marteau: 
                 print("Porte ouverte avec le MARTEAU.")
-                ouverture_succes = True
+                ouverture_succes = True # Le marteau n'est PAS consommé
             else:
                 print("Il faut le MARTEAU (niveau 2).")
 
