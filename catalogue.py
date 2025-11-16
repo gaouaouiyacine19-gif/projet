@@ -20,7 +20,7 @@ class CataloguePiece:
             image_path='assets/images/bleumagasin.png',
             rareté=0,
             cout_gemmes=0,
-            portes={'S': 0}, 
+            portes={'S': True }, 
             objets={'cles': 1, 'gemmes': 1, 'pieces_or': 1, 'pelle': 1 },
             type_piece="magasin" 
         ))
@@ -31,7 +31,7 @@ class CataloguePiece:
             image_path='assets/images/bleugarage.png',
             rareté=0,
             cout_gemmes=1,
-            portes={'S': 0},
+            portes={'S': True },
             objets={'cles': 3,'pelle': 1},
             type_piece="standard"
         
@@ -43,7 +43,7 @@ class CataloguePiece:
             image_path='assets/images/bleuWineCellar.png',
             rareté=0,
             cout_gemmes=1,
-            portes={'S': 0},
+            portes={'S': True},
             objets={'pieces_or': 3},
             type_piece="standard"
         ))
@@ -54,7 +54,7 @@ class CataloguePiece:
             image_path='assets/images/bleuGalerie.png',
             rareté=0,
             cout_gemmes=1,
-            portes={'N': 1,'S': True},
+            portes={'N': True,'S': True},
             objets={'pas':5,'pelle': 1},
             type_piece="standard"
         ))
@@ -64,7 +64,7 @@ class CataloguePiece:
             image_path='assets/images/bleuglasse.png',
             rareté=0,
             cout_gemmes=1,
-            portes={ 'S': 0},
+            portes={ 'S': True },
             objets={'cles': 0,'marteau': 1,'pelle': 1},
             type_piece="standard"
         ))
@@ -75,7 +75,7 @@ class CataloguePiece:
             image_path='assets/images/bleumusique.png',
             rareté=0,
             cout_gemmes=2,
-            portes={'S': 0, 'O':2 }, 
+            portes={'S': True , 'O': True  }, 
             objets={'cles': 1, 'pelle': 1,'pelle': 1},
             
             type_piece="standard"
