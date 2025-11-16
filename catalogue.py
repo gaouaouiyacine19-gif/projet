@@ -13,7 +13,7 @@ class CataloguePiece:
         
         catalogue = []
         
-
+        # les chambre blue 
         # 1. MAGASIN 
         catalogue.append(Piece(
             nom="Magasin",
@@ -47,7 +47,7 @@ class CataloguePiece:
             objets={'pieces_or': 3},
             type_piece="standard"
         ))
-        # 4. galerie  (Entrée S, Cul-de-sac)
+        # 4. galerie 
         
         catalogue.append(Piece(
             nom="Galerie",
@@ -58,7 +58,7 @@ class CataloguePiece:
             objets={'pas':5,'pelle': 1},
             type_piece="standard"
         ))
-         # 5 salle a glasse (Entrée S, Cul-de-sac)
+         # 5 salle a glasse 
         catalogue.append(Piece(
             nom="glasse",
             image_path='assets/images/bleuglasse.png',
@@ -69,7 +69,7 @@ class CataloguePiece:
             type_piece="standard"
         ))
 
-        # 6 SALLE MUSIQUE (Entrée S, Sorties O, S)
+        # 6 SALLE MUSIQUE 
         catalogue.append(Piece(
             nom="Salle Musique",
             image_path='assets/images/bleumusique.png',
@@ -83,7 +83,7 @@ class CataloguePiece:
 
         ))
         
-        # 7. VESTIAIRE (Entrée S, Sortie N)
+        # 7. VESTIAIRE 
         catalogue.append(Piece(
             nom="Vestiaire",
             image_path='assets/images/vestiaire.png',
@@ -97,7 +97,7 @@ class CataloguePiece:
         ))
          
         
-         # 8. coin(entrée S, cul-de-sac)
+         # 8. coin
         catalogue.append(Piece(
             nom="Chambre d'Amis",
             image_path='assets/images/bleucoin.png',
@@ -110,7 +110,7 @@ class CataloguePiece:
 
         ))
 
-        # 9. Cuisine (entrée S, sorties E et O)
+        # 9. Cuisine 
         catalogue.append(Piece(
             nom="Cuisine",
             image_path='assets/images/bleucuisine.png',
@@ -122,7 +122,7 @@ class CataloguePiece:
            
 
         ))
-         # 10. Salle Den  (S et E, donne une clé)
+         # 10. Salle Den  
         catalogue.append(Piece(
             nom="Den",
             image_path='assets/images/bleuDen.png',
@@ -134,7 +134,7 @@ class CataloguePiece:
             
 
         ))
-        # 11 salon (S et N, donne 2 gemmes)
+        # 11 salon
         catalogue.append(Piece(
             nom="Le salon",
             image_path='assets/images/bleusalon.png',
@@ -156,7 +156,7 @@ class CataloguePiece:
             type_piece="tresor"
         ))
 
-         # 13. Bibliothèque (S et N, donne 2 gemmes)
+         # 13. Bibliothèque 
         catalogue.append(Piece(
             nom="Bibliothèque",
             image_path='assets/images/bleubibliotheque.png',
@@ -262,8 +262,8 @@ class CataloguePiece:
         ))
 
 
-        #  PIÈCES VERTES ET jaune  (un peu plus rares : rareté 1) 
-          # 1 foyer (entrée S, sortie N)
+        #  PIÈCES VERTES ET jaune  
+          # 1 foyer 
 
         catalogue.append(Piece(
             nom="foyer",
@@ -275,8 +275,7 @@ class CataloguePiece:
             type_piece="foyer"
         
         ))
-        # --- PIÈCES VERTES (– rareté 1) ---
-          # 1- chambre cours 
+          # 2 chambre cours 
         catalogue.append(Piece(
             nom="cour",
             image_path='assets/images/vertcour.png',
@@ -287,7 +286,7 @@ class CataloguePiece:
             type_piece="chambre"
         ))
 
-        # VERT 2 — patio (verrouillée)
+        # 3 patio (verrouillée)
         catalogue.append(Piece(
             nom="patio",
             image_path='assets/images/vertpatio.png',
@@ -301,7 +300,7 @@ class CataloguePiece:
         ))
 
             
-        # 3- chambre jardin
+        # 4 chambre jardin
 
         catalogue.append(Piece(
             nom=" Jardin",
@@ -316,7 +315,7 @@ class CataloguePiece:
         ))
           
 
-          # 4 chambre solarium
+          # 5 chambre solarium
         catalogue.append(Piece(
             nom="Solarium.png",
             image_path='assets/images/vertsolarium.png',
@@ -329,7 +328,7 @@ class CataloguePiece:
             ))
         
 
-        # 5 chambre Tarrace 
+        # 6 chambre Tarrace 
 
         catalogue.append(Piece(
             nom="Terrace",
@@ -342,7 +341,7 @@ class CataloguePiece:
             type_piece="vert"
         ))
 
-        # 6 chambre  cloister
+        # 7 chambre  cloister
 
         catalogue.append(Piece(
             nom="Cloister",
@@ -357,7 +356,7 @@ class CataloguePiece:
         ))
 
 
-         # 7 chambre veranda 
+         # 8 chambre veranda 
         catalogue.append(Piece(
             nom="Veranda",
             image_path='assets/images/vertVeranda.png',
@@ -372,7 +371,7 @@ class CataloguePiece:
 
         
          # les chambre jaune 
-         
+          #1 chambre casino
         catalogue.append(Piece(
             nom="Casino",
             image_path='assets/images/jauneCasino.png',
@@ -383,7 +382,7 @@ class CataloguePiece:
             objets={'pieces_or': 1, 'gemmes': 1},
             type_piece="jaune"
         ))
-          # 2 chambre corridor (tout les porte sont ouvert )
+          # 2 chambre corridor 
         catalogue.append(Piece(
             nom="Corridor", 
             image_path='assets/images/jauneCorridor.png',
@@ -394,7 +393,7 @@ class CataloguePiece:
             objets={'pas': -2},
             type_piece="jaune"
         ))
-         # jaune 
+         #3
         catalogue.append(Piece(
             nom="Esst wing hall",
             image_path='assets/images/jauneEast.png',
@@ -406,7 +405,7 @@ class CataloguePiece:
 
             type_piece="jaune"
         ))
- # jaune 
+        #4
         catalogue.append(Piece(
             nom="Hallway Icon",
             image_path='assets/images/jauneHallwayIcon.png',
@@ -417,7 +416,7 @@ class CataloguePiece:
             objets={'pieces_or': 1, 'gemmes': 1},
             type_piece="jaune"
         ))
- # jaune 
+        #5 
         catalogue.append(Piece(
             nom="Locksmith",
             image_path='assets/images/jauneLocksmith.png',
@@ -429,7 +428,7 @@ class CataloguePiece:
 
             type_piece="jaune"
         ))
- # jaune 
+        # 6
         catalogue.append(Piece(
             nom="Locksmith",
             image_path='assets/images/jauneLocksmith.png',
@@ -441,7 +440,7 @@ class CataloguePiece:
 
             type_piece="jaune"
         ))
- # jaune 
+        # 7
         catalogue.append(Piece(
             nom="Passageway",
             image_path='assets/images/jaunePassageway.png',
@@ -452,7 +451,7 @@ class CataloguePiece:
             objets={'pieces_or': 1, 'gemmes': 1},
             type_piece="jaune"
         ))
- # jaune 
+        # 8
         catalogue.append(Piece(
             nom="Secret Passage",
             image_path='assets/images/jauneSecretPassage.png',
@@ -465,7 +464,7 @@ class CataloguePiece:
         ))
        
 
-
+        #9
         catalogue.append(Piece(
             nom=" The Armory",
             image_path='assets/images/jauneTheArmory.png',
@@ -479,7 +478,7 @@ class CataloguePiece:
 
         ))
 
-
+        #10
         catalogue.append(Piece(
             nom=" Tunnel",
             image_path='assets/images/jauneTunnel.png',
@@ -490,7 +489,7 @@ class CataloguePiece:
             objets={'pelle': 1},
             type_piece="jaune"
         ))
-
+        #11
         catalogue.append(Piece(
             nom=" West Wing Hall",
             image_path='assets/images/jauneWestWingHall.png',
@@ -510,7 +509,7 @@ class CataloguePiece:
 
 
 
-        # PIÈCES ROUGES (plus rares : rareté 2) 
+        # PIÈCES ROUGES 
 
        
         # 1 Salle du toilettes
@@ -525,7 +524,7 @@ class CataloguePiece:
             type_piece="Toilettes"
         ))
 
-        # 2 Chambre salle de sporte(donne des clés mais coûte cher)
+        # 2 Chambre salle de sporte(
         catalogue.append(Piece(
             nom="salle de sport",
             image_path='assets/images/rougesalledesport.png',
@@ -537,7 +536,7 @@ class CataloguePiece:
             type_piece="piege"
         ))
 
-         # 3 Chambre chapel (tu perd des piece )
+         # 3 Chambre chapel 
         catalogue.append(Piece(
             nom="chapel",
             image_path='assets/images/Chapel.png',
@@ -629,10 +628,10 @@ class CataloguePiece:
 
 
 
-        #  PIÈCES VIOLETTES (très rares : rareté 3)
+        #  PIÈCES VIOLETTES 
         
 
-         # . chambre d'inviter (S et N, donne 2 gemmes)
+         # 1 chambre d'inviter
         catalogue.append(Piece(
             nom="chambre d'invité",
             image_path='assets/images/vioinvites.png',
@@ -644,7 +643,7 @@ class CataloguePiece:
             type_piece="chambre"
         ))
         
-
+        #2
         catalogue.append(Piece(
             nom="Boudoir",
             image_path='assets/images/vioboudoir.png',
@@ -657,7 +656,7 @@ class CataloguePiece:
 
             type_piece="violet"
         ))
-
+         #3
         catalogue.append(Piece(
             nom="chambre",
             image_path='assets/images/viochambre.png',
@@ -668,6 +667,7 @@ class CataloguePiece:
             objets={'cles': 2, 'gemmes': 3,'pas':5},
             type_piece="violet"
         ))
+        #4
 
         catalogue.append(Piece(
             nom="Quartier du serviteur",
@@ -680,6 +680,7 @@ class CataloguePiece:
 
             type_piece="violet"
         ))
+        #5
 
         catalogue.append(Piece(
             nom="Chevillere",
@@ -691,6 +692,7 @@ class CataloguePiece:
             objets={'gemmes': 10, 'cles': 1},
             type_piece="violet"
         ))
+        #6
 
         catalogue.append(Piece(
             nom="Chambreparentale",
@@ -703,6 +705,7 @@ class CataloguePiece:
 
             type_piece="violet"
         ))
+        #7
 
         catalogue.append(Piece(
             nom="couchettes",
@@ -715,6 +718,9 @@ class CataloguePiece:
 
             type_piece="violet"
         ))
+
+
+        
            # PIÈCE MULTICOLORE SPÉCIALE 
 
         catalogue.append(Piece(

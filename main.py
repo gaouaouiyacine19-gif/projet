@@ -1,7 +1,7 @@
 import pygame
 from game import game  # On importera la classe Game dans le fichier suivant
 
-# Initialisation de pygame
+
 pygame.init()
 
 # Dimensions de la fenêtre
@@ -12,7 +12,7 @@ SCREEN_HEIGHT = 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Blue Prince - Projet POO")
 
-# Création du jeu (on la fera dans game.py juste après)
+# Création du jeu 
 game = game(screen)
 
 # Lancement de la boucle principale du jeu

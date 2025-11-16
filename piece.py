@@ -10,11 +10,9 @@ class Piece:
         self.couleur = couleur
         self.rareté = rareté
         self.cout_gemmes = cout_gemmes
-
-        # IMPORTANT : utiliser 'is None' pour éviter les bugs
         self.portes = portes if portes is not None else {}
 
-        # Compléter automatiquement les 4 directions
+    
         for d in ['N', 'S', 'E', 'O']:
             if d not in self.portes:
                 self.portes[d] = False
@@ -26,7 +24,7 @@ class Piece:
         self.image = None  # requis pour la rotation
 
     def rotate(self):
-        # Rotation logique (90° sens horaire)
+        # Rotation logique 
         self.portes = {
             'N': self.portes.get('O', False),
             'E': self.portes.get('N', False),

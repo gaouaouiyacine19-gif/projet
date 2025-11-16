@@ -9,7 +9,7 @@ from catalogue import CataloguePiece
 
 STATE_DEPLACEMENT = 0
 STATE_CHOIX_PIECE = 1
-STATE_POPUP_PORTE = 2   # popup ouvrir porte / mur
+STATE_POPUP_PORTE = 2   
 
 
 class game:
@@ -43,8 +43,11 @@ class game:
         self.popup_cible_x = -1
         self.popup_cible_y = -1
         
-        # --- NOUVELLE SECTION : FOND D'ÉCRAN PRINCIPAL (bleuprince.png) ---
-        # 1. Définir la taille de l'écran (maintenant en attribut de la classe)
+        #  NOUVELLE SECTION : FOND D'ÉCRAN PRINCIPAL (bleuprince.png)
+
+
+        #  Définir la taille de l'écran (maintenant en attribut de la classe)
+
         self.largeur_ecran, self.hauteur_ecran = screen.get_size() 
         self.background_game_image = None
         
@@ -59,11 +62,10 @@ class game:
             )
         except pygame.error as e:
             print(f"Erreur de chargement de l'image de fond 'bleuprince.png': {e}")
-            # Crée un fond noir de secours si l'image manque
             self.background_game_image = pygame.Surface((self.largeur_ecran, self.hauteur_ecran))
             self.background_game_image.fill((0, 0, 0)) 
         
-        # ----------------------------------------------------
+    
 
         # Images de fin de jeu (Bloc existant)
         self.img_win = None
@@ -85,9 +87,9 @@ class game:
             self.img_gameover = None
             print("Avertissement: Images fin de jeu non trouvées.")
 
-    # ----------------------
-    # PIÈCES / CATALOGUE
-    # ----------------------
+   
+    # PIÈCES 
+
     def _tirer_pieces(self):
         """Tire 3 pièces depuis le catalogue avec pondération sur la rareté."""
         pioche = self.catalogue.get_pioche_initiale()
@@ -102,29 +104,28 @@ class game:
         """Place la pièce choisie, déduit le coût, déplace le joueur et exécute les effets."""
         piece_choisie = self.pieces_proposees[self.index_choix]
         
-        # --- 1. VÉRIFICATION DU COÛT DE VERROUILLAGE (Clés) ---
+        #  VÉRIFICATION DU COÛT DE VERROUILLAGE
         
         lock_level = getattr(piece_choisie, "lock_level", 0) 
         cles_consommees = 0
 
         if lock_level > 0:
-            # Vérification de la ressource nécessaire (simplifié à Clés pour le lock_level de la pièce)
+            #  (simplifié à Clés pour le lock_level de la pièce)
             if self.inventaire.cles < lock_level:
-                print(f"❌ Pas assez de clés : il faut {lock_level} clé(s).")
+                print(f" Pas assez de clés : il faut {lock_level} clé(s).")
                 return # Bloque le placement
             
             # Consommation des clés
             self.inventaire.cles -= lock_level
             cles_consommees = lock_level
-            print(f"🔑 {lock_level} clé(s) consommée(s) pour le placement.")
+            print(f" {lock_level} clé consommée pour le placement.")
 
         
-        # --- 2. VÉRIFICATION ET ALIGNEMENT DE LA ROTATION (Contrainte de la grille) ---
         
-        # Déterminer la porte qui DOIT être ouverte sur la pièce choisie (la porte d'entrée)
+        # Déterminer la porte qui DOIT être ouverte sur la pièce choisie 
         porte_attendue = None
         if self.direction_entree == pygame.K_z: 
-           porte_attendue = 'S' # Mouvement Nord (Z) -> Attendre porte Sud (S)
+           porte_attendue = 'S' 
         elif self.direction_entree == pygame.K_s: 
            porte_attendue = 'N' 
         elif self.direction_entree == pygame.K_q: 
@@ -135,23 +136,23 @@ class game:
         if porte_attendue is not None:
             rotation_count = 0
             
-            # Tente de tourner (max 4 fois) pour garantir la connexion
+            
             while not piece_choisie.portes.get(porte_attendue, False) and rotation_count < 4:
                 piece_choisie.rotate() 
                 rotation_count += 1
                 
-            # Échec de l'alignement après 4 rotations
+            
             if rotation_count == 4 and not piece_choisie.portes.get(porte_attendue, False):
-                print(f"❌ ERREUR: La pièce {piece_choisie.nom} ne peut pas être alignée (pas de porte {porte_attendue}).")
+                print(f" ERREUR: La pièce {piece_choisie.nom} ne peut pas être alignée (pas de porte {porte_attendue}).")
                 # Rendre les clés consommées si l'alignement échoue
                 self.inventaire.cles += cles_consommees 
                 return # Bloque le placement
 
         
-        # --- 3. VÉRIFICATION DU COÛT EN GEMMES ---
+        #  VÉRIFICATION DU COÛT EN GEMMES 
         
         if self.inventaire.gemmes < piece_choisie.cout_gemmes:
-           print("❌ Pas assez de gemmes pour cette pièce.")
+           print(" Pas assez de gemmes pour cette pièce.")
            # Rendre les clés consommées si les gemmes manquent
            self.inventaire.cles += cles_consommees 
            return
@@ -160,7 +161,7 @@ class game:
         self.inventaire.gemmes -= piece_choisie.cout_gemmes
 
 
-        # --- 4. PLACEMENT DE LA PIÈCE ET DÉPLACEMENT ---
+       
         
         # Placer la pièce dans la map
         self.manoir.map[self.cible_y][self.cible_x] = piece_choisie
@@ -173,7 +174,6 @@ class game:
         piece_choisie.visitee = True
 
 
-        # --- 5. APPLICATION DES OBJETS ET BONUS ---
         if piece_choisie.objets:
             # Gains/pertes de ressources
             self.inventaire.cles = max(0, self.inventaire.cles + piece_choisie.objets.get('cles', 0))
@@ -181,7 +181,7 @@ class game:
             self.inventaire.pieces_or = max(0, self.inventaire.pieces_or + piece_choisie.objets.get('pieces_or', 0))
             self.inventaire.pas += piece_choisie.objets.get('pas', 0)
             
-            # Application des objets permanents
+        
             if piece_choisie.objets.get('marteau'):
                 self.inventaire.marteau = True
             if piece_choisie.objets.get('pelle'):
@@ -195,7 +195,7 @@ class game:
 
         print(f"✅ Pièce {piece_choisie.nom} placée et alignée.")
 
-        # --- 6. RETOUR À L'ÉTAT DÉPLACEMENT ---
+        # 6 RETOUR À L'ÉTAT DÉPLACEMENT
         self.etat_jeu = STATE_DEPLACEMENT
         self.pieces_proposees = []
         self.direction_entree = None
@@ -243,17 +243,17 @@ class game:
             txt_nom = font.render(piece.nom, True, (255, 255, 255))
             self.screen.blit(txt_nom, (x, y + carte_h + 5))
 
-            # 🔐 LOCK_LEVEL (en gras et visible)
+            
             lock = getattr(piece, "lock_level", 0)
             if lock > 0:
                 txt_lock = font.render(f"Serrure : niveau {lock}", True, (255, 200, 0))
                 self.screen.blit(txt_lock, (x, y + carte_h + 35))
 
-            # 💎 Coût en gemmes
+            #  Coût en gemmes
             txt_cout = font.render(f"Coût : {piece.cout_gemmes} gemme(s)", True, (0, 255, 255))
             self.screen.blit(txt_cout, (x, y + carte_h + 65))
 
-            # 🎁 OBJETS (affichage clair des gains/pertes)
+            # OBJETS (affichage clair des gains et pertes)
             objets = piece.objets
             if objets:
                 y_obj = y + carte_h + 95
@@ -265,7 +265,7 @@ class game:
                     if val == 0:
                         continue
 
-                    # signe pour +/-
+                    
                     signe = "+" if val > 0 else ""
                     couleur = (0, 255, 0) if val > 0 else (255, 100, 100)
 
@@ -275,9 +275,7 @@ class game:
 
 
 
-    # ----------------------
-    # POPUP PORTE / MUR
-    # ----------------------
+
     def _afficher_popup_porte(self):
         """Popup indiquant mur / porte verrouillée et ressource requise."""
         w, h = 460, 180
@@ -303,7 +301,7 @@ class game:
         elif lock == 2:
             t1 = "Porte verrouillée (niveau 2)."
             t2 = "Il faut 1 Mrteau. Y = ouvrir, N = annuler."
-        else:  # lock == 3
+        else:  
             t1 = " MUR "
             t2 = "Il faut une pelle pour creuser . Y = ouvrir, N = annuler."
 
@@ -313,16 +311,16 @@ class game:
         self.screen.blit(txt1, (x + 20, y + 40))
         self.screen.blit(txt2, (x + 20, y + 90))
 
-    # game.py
+    
 
     def _ouvrir_porte_popup(self):
         lock = self.popup_lock_level
         cible_x = self.popup_cible_x
         cible_y = self.popup_cible_y
         
-        ouverture_succes = False # Variable pour suivre si l'ouverture a réussi
+        ouverture_succes = False 
 
-        # --- LOGIQUE D'OUVERTURE ---
+        
 
         if lock == 1:
             if self.inventaire.cles >= 1:
@@ -336,18 +334,18 @@ class game:
             
             if self.inventaire.marteau: 
                 print("Porte ouverte avec le MARTEAU.")
-                ouverture_succes = True # Le marteau n'est PAS consommé
+                ouverture_succes = True 
             else:
                 print("Il faut le MARTEAU (niveau 2).")
 
-        elif lock == 3: # LOGIQUE PELLE POUR LES MURS
+        elif lock == 3: 
             if self.inventaire.pelle: 
                 print("Mur creusé avec succès (PELLE).")
                 ouverture_succes = True
             else:
                 print("Il faut la PELLE pour creuser (niveau 3).")
         
-        # --- PHASE DE TRANSITION (Exécutée SEULEMENT si succès) ---
+        # PHASE DE TRANSITION (Exécutée SEULEMENT si succès) 
 
         if ouverture_succes:
             # 1. Préparer le choix de pièce (le mur est toujours une pièce inconnue)
@@ -367,9 +365,8 @@ class game:
         self.popup_lock_level = 0
         self.popup_cible_x = -1
         self.popup_cible_y = -1
-    # ----------------------
-    # BOUCLE PRINCIPALE
-    # ----------------------
+
+    
     def run(self):
         while self.running:
             for event in pygame.event.get():
@@ -378,18 +375,18 @@ class game:
 
                 if event.type == pygame.KEYDOWN and not self.game_over and not self.win:
 
-                    # ------- ÉTAT DÉPLACEMENT -------
+                    
                     if self.etat_jeu == STATE_DEPLACEMENT:
 
-                        # 1. VISÉE (ZQSD)
+                       
                         if event.key in [pygame.K_z, pygame.K_q, pygame.K_s, pygame.K_d]:
                             resultat_visee = self.joueur.deplacer(
                                 event.key, self.manoir, self.inventaire, validation=False
                             )
-                            # On mémorise la direction seulement si mouvement possible (porte ouverte/limite)
+                            
                             self.direction_visee = event.key if resultat_visee else None
 
-                        # 2. VALIDATION (ESPACE)
+                       
                         elif event.key == pygame.K_SPACE and self.direction_visee is not None:
                             resultat = self.joueur.deplacer(
                                 self.direction_visee, self.manoir, self.inventaire, validation=True
@@ -397,14 +394,14 @@ class game:
 
                             if resultat is not None:
 
-                                # CAS : Popup porte / mur (Vérification de verrouillage/ressources)
+                              
                                 if resultat.get('popup_porte'):
                                     self.popup_cible_x = resultat['cible_x']
                                     self.popup_cible_y = resultat['cible_y']
                                     self.popup_lock_level = resultat['lock_level']
                                     self.etat_jeu = STATE_POPUP_PORTE
 
-                                # CAS : nouvelle pièce (case inconnue)
+                                
                                 elif resultat.get('nouvelle_piece'):
                                     self.cible_x = resultat['cible_x']
                                     self.cible_y = resultat['cible_y']
@@ -413,72 +410,71 @@ class game:
                                     self.index_choix = 0
                                     self.direction_entree = self.direction_visee
 
-                            # On réinitialise la direction visée
+                         
                             self.direction_visee = None
 
-                    # ------- ÉTAT CHOIX PIECE -------
+                    
                     elif self.etat_jeu == STATE_CHOIX_PIECE:
                         if event.key == pygame.K_q and self.index_choix > 0:
                             self.index_choix -= 1
                         elif event.key == pygame.K_d and self.index_choix < len(self.pieces_proposees) - 1:
                             self.index_choix += 1
                         
-                        # ROTATION MANUELLE AVEC 'R'
+                        
                         elif event.key == pygame.K_r:
                             piece_a_tourner = self.pieces_proposees[self.index_choix]
                             piece_a_tourner.rotate()
                             print(f"Rotation manuelle appliquée à la pièce : {piece_a_tourner.nom}")
                             
-                        # VALIDER le choix (ENTRÉE)
+                       
                         elif event.key == pygame.K_RETURN:
                             self._valider_choix_piece()
 
-                    # ------- ÉTAT POPUP PORTE / MUR -------
+                   
                     elif self.etat_jeu == STATE_POPUP_PORTE:
                         if event.key == pygame.K_y:
-                            # On ne tente d'ouvrir que si lock_level > 0
+                            
                             if self.popup_lock_level > 0:
                                 self._ouvrir_porte_popup()
                         elif event.key == pygame.K_n:
-                            # annuler la popup
+                           
                             self.etat_jeu = STATE_DEPLACEMENT
                             self.popup_cible_x = -1
                             self.popup_cible_y = -1
                             self.popup_lock_level = 0
 
-            # Victoire / Défaite (Logique)
+            
             if self.inventaire.pas <= 0 and not self.win:
                 self.game_over = True
 
             if self.joueur.x == 2 and self.joueur.y == 0:
                 self.win = True
 
-            # --- DÉBUT DE LA PHASE D'AFFICHAGE UNIQUE ---
             
-            # 1. Fond (Image bleuprince.png ou couleur de secours)
+            
             if self.background_game_image:
                 self.screen.blit(self.background_game_image, (0, 0))
             else:
                 self.screen.fill((30, 30, 40)) 
                 
-            # 2. Éléments du jeu (Dessiné par-dessus le fond)
+            
             self.manoir.afficher(self.screen)
             self.joueur.afficher(self.screen)
             self.inventaire.afficher(self.screen)
 
-            # 3. Menus et Popups (Dessiné par-dessus le jeu)
+           
             if self.etat_jeu == STATE_CHOIX_PIECE:
                 self._afficher_choix_piece()
             elif self.etat_jeu == STATE_POPUP_PORTE:
                 self._afficher_popup_porte()
 
-            # 4. Écran de fin de jeu (Dessiné par-dessus tout)
+           
             if self.game_over and self.img_gameover:
                 self.screen.blit(self.img_gameover, (0, 0))
             elif self.win and self.img_win:
                 self.screen.blit(self.img_win, (0, 0))
 
-            # --- FIN DE LA PHASE D'AFFICHAGE ---
+           
 
-            pygame.display.flip() # UN SEUL APPEL À FLIP À LA FIN
+            pygame.display.flip()
             self.clock.tick(60)

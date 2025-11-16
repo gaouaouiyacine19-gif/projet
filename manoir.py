@@ -18,7 +18,7 @@ class Manoir:
     def _initialiser_map(self):
         """Définit la grille 9x5 des pièces, y compris le départ et l'arrivée."""
         
-        # Pièce "non découverte"
+
         PIECE_NON_DECOUVERTE = Piece(
             nom="Inconnu",
             image_path='',

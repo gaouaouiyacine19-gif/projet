@@ -2,14 +2,14 @@ import pygame
 
 class Inventaire:
     def __init__(self):
-        # --- Objets Consommables (Ressources) ---
+        # Objets Consommables 
         self.pas = 70       
         self.pieces_or = 0  
         self.gemmes = 2     
         self.cles = 0       
         self.des = 0        
         
-        # --- Objets Permanents (Équipement) ---
+        # Objets Permanents
         self.pelle = False          
         self.marteau = False        
         self.kit_crochetage = False 
@@ -29,7 +29,7 @@ class Inventaire:
         X_PERMANENTS = 500
         X_RESSOURCES = 750
         
-        # 1. AFFICHAGE DES RESSOURCES (Colonne DROITE)
+        #  AFFICHAGE DES RESSOURCES (Colonne DROITE)
         ressources = [
             (self.pas, "PAS"), (self.cles, "CLÉS"), (self.des, "DÉS"),
             (self.gemmes, "GEMMES"), (self.pieces_or, "PIÈCES D'OR")
@@ -45,7 +45,7 @@ class Inventaire:
             dessiner_ligne(nom, X_RESSOURCES + 50, y_pos, (0, 0, 0))
             y_pos += line_height
 
-        # 2. AFFICHAGE DES OBJETS PERMANENTS (Colonne GAUCHE)
+        #  AFFICHAGE DES OBJETS PERMANENTS (Colonne GAUCHE)
         permanents = [
             ("Pelle", self.pelle), ("Marteau", self.marteau),
             ("Kit de crochetage", self.kit_crochetage), ("Détecteur de métaux", self.detecteur_metal),
